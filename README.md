@@ -10,7 +10,7 @@ The Wild Oasis is a responsive hotel-management dashboard for staff. It brings b
 
 The application opens on a protected dashboard and redirects unauthenticated visitors to the login page. Once signed in, staff can review recent performance, manage bookings and cabins, complete guest check-ins and check-outs, and update operational settings.
 
-Run the project locally and open [http://localhost:5173](http://localhost:5173) to explore it.
+**[View the live application](https://the-wild-oasis-pi-blue.vercel.app)**
 
 ## Table of contents
 
@@ -160,6 +160,9 @@ Client-side routes can return a server 404 when refreshed after deployment. The 
    - `bookings`, `cabins`, `guests`, and `settings` data
    - Supabase Authentication users
    - Public `cabin-images` and `avatars` storage buckets
+   - Row Level Security policies that allow authenticated staff to use the required data and storage operations
+
+   > **Note:** The repository does not currently include the complete database schema and seed migrations. To start from a blank Supabase project, create these resources first or add the project's original schema before running the application.
 
 6. Start the development server:
 
