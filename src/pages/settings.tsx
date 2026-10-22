@@ -1,7 +1,10 @@
-import UpdateSettingsForm from "@/features/settings/update-settings-form";
-import PageHeader from "@/shared/page-header";
+import UpdateSettingsForm from "@/components/settings/update-settings-form";
+import PageHeader from "@/components/shared/page-header";
+import useTitle from "@/hooks/shared/use-title";
 
 function Settings() {
+  useTitle("Settings");
+
   return (
     <>
       <PageHeader

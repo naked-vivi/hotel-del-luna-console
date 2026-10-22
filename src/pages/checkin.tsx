@@ -1,6 +1,11 @@
-import CheckinBooking from "@/features/check-in-out/checkin-booking"
+import { useParams } from "react-router-dom"
+import CheckinBooking from "@/components/check-in-out/checkin-booking"
+import useTitle from "@/hooks/shared/use-title"
 
 function Checkin() {
+    const { bookingId } = useParams()
+    useTitle(`Check in #${bookingId}`)
+
     return (
         <CheckinBooking />
     )

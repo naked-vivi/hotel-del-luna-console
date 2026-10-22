@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import PageHeader from "@/shared/page-header";
-import StaffTable from "@/features/staff/staff-table";
-import AddStaffModal from "@/features/staff/add-staff-modal";
+import PageHeader from "@/components/shared/page-header";
+import StaffTable from "@/components/staff/staff-table";
+import AddStaffModal from "@/components/staff/add-staff-modal";
+import useTitle from "@/hooks/shared/use-title";
 
 function Users() {
+  useTitle("Staff");
   const [isAdding, setIsAdding] = useState(false);
 
   return (

@@ -1,0 +1,13 @@
+import { useEffect } from "react";
+import { APP_TITLE } from "@/lib/constants";
+
+function useTitle(title: string) {
+  useEffect(() => {
+    document.title = `${title} | ${APP_TITLE}`;
+    return () => {
+      document.title = APP_TITLE;
+    };
+  }, [title]);
+}
+
+export default useTitle;

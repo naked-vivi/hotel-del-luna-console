@@ -1,8 +1,10 @@
-import { useMoveBack } from "../hooks/use-move-back";
+import { useMoveBack } from "@/hooks/shared/use-move-back";
 import { Button } from "@/components/ui/button";
-import Logo from "@/shared/logo";
+import Logo from "@/components/shared/logo";
+import useTitle from "@/hooks/shared/use-title";
 
 function PageNotFound() {
+  useTitle("Page not found");
   const moveBack = useMoveBack();
 
   return (

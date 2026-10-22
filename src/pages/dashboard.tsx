@@ -1,15 +1,12 @@
-import DashboardFilter from "@/features/dashboard/dashboard-filter";
-import DashboardLayout from "@/features/dashboard/dashboard-layout";
-import PageHeader from "@/shared/page-header";
-
-function greeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-}
+import DashboardFilter from "@/components/dashboard/dashboard-filter";
+import DashboardLayout from "@/components/dashboard/dashboard-layout";
+import PageHeader from "@/components/shared/page-header";
+import useTitle from "@/hooks/shared/use-title";
+import { greeting } from "@/lib/helpers";
 
 function Dashboard() {
+  useTitle("Dashboard");
+
   return (
     <div className="@container min-w-0">
       <PageHeader

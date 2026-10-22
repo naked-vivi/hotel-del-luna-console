@@ -1,12 +1,14 @@
-import { useSearchParams } from "react-router-dom";
-import BookingTable from "@/features/bookings/booking-table";
-import BookingTableOperations from "@/features/bookings/booking-table-operations";
-import RoomChart from "@/features/bookings/room-chart";
-import PageHeader from "@/shared/page-header";
+import BookingTable from "@/components/bookings/booking-table";
+import BookingTableOperations from "@/components/bookings/booking-table-operations";
+import RoomChart from "@/components/bookings/room-chart";
+import PageHeader from "@/components/shared/page-header";
+import { useSearchParam } from "@/hooks/shared/use-search-param";
+import useTitle from "@/hooks/shared/use-title";
 
 function Bookings() {
-  const [searchParams] = useSearchParams();
-  const view = searchParams.get("view") === "chart" ? "chart" : "list";
+  useTitle("Bookings");
+  const [viewParam] = useSearchParam("view");
+  const view: BookingView = viewParam === "chart" ? "chart" : "list";
 
   return (
     <>

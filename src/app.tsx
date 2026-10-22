@@ -1,37 +1,37 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import Dashboard from "./pages/dashboard"
-import Bookings from "./pages/bookings"
-import Booking from "./pages/booking"
-import Cabins from "./pages/cabins"
-import Users from "./pages/users"
-import Settings from "./pages/settings"
-import Account from "./pages/account"
-import Login from "./pages/login"
-import PageNotFound from "./pages/page-not-found"
-import AppLayout from "./shared/app-layout"
-import { Toaster } from "./components/ui/toast"
-import Checkin from "./pages/checkin"
-import ProtectedRoute from "./shared/protected-route"
-import { ThemeProvider } from "./shared/theme-provider"
+import Dashboard from "@/pages/dashboard"
+import Bookings from "@/pages/bookings"
+import Booking from "@/pages/booking"
+import Cabins from "@/pages/cabins"
+import Users from "@/pages/users"
+import Settings from "@/pages/settings"
+import Account from "@/pages/account"
+import Login from "@/pages/login"
+import PageNotFound from "@/pages/page-not-found"
+import AppLayout from "@/components/shared/app-layout"
+import { Toaster } from "@/components/ui/toast"
+import Checkin from "@/pages/checkin"
+import ProtectedRoute from "@/components/shared/protected-route"
+import { ThemeProvider } from "@/components/shared/theme-provider"
+import { DEFAULT_THEME, QUERY_STALE_TIME, THEME_STORAGE_KEY } from "@/lib/constants"
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 0,
+      staleTime: QUERY_STALE_TIME,
     }
   }
 });
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme={DEFAULT_THEME} storageKey={THEME_STORAGE_KEY}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <Routes>
-
             <Route element={<ProtectedRoute> <AppLayout /> </ProtectedRoute>}>
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="/dashboard" element={<Dashboard />} />
