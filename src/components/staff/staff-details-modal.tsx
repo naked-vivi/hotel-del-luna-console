@@ -5,8 +5,11 @@ import RoleTag from "@/components/staff/role-tag";
 import EmailStatusTag from "@/components/staff/email-status-tag";
 import StaffDetail from "@/components/staff/staff-detail";
 import { formatTimestamp } from "@/lib/helpers";
+import { usePermissions } from "@/hooks/authentication/use-permissions";
 
 function StaffDetailsModal({ account, isSelf, onClose, onEdit }: StaffDetailsModalProps) {
+  const canManage = usePermissions().can("staff.manage");
+
   return (
     <Dialog open={Boolean(account)} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-xl">
@@ -31,7 +34,7 @@ function StaffDetailsModal({ account, isSelf, onClose, onEdit }: StaffDetailsMod
 
             <div className="-mx-8 -mb-8 flex justify-end gap-3 border-t border-border px-8 py-6">
               <Button variant="outline" onClick={onClose}>Close</Button>
-              <Button onClick={() => onEdit(account)}>Edit</Button>
+              <Button disabled={!canManage} onClick={() => onEdit(account)}>Edit</Button>
             </div>
           </>
         )}

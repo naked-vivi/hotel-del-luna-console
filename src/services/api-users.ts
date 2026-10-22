@@ -11,10 +11,12 @@ function friendlyError(error: PostgrestError, fallback: string): Error {
   return new Error(fallback);
 }
 
-export async function getUserAccounts(page: number): Promise<UserAccountsPage> {
+export async function getUserAccounts({ page, search, role }: UserAccountsQuery): Promise<UserAccountsPage> {
   const { data, error } = await supabase.rpc("list_user_accounts", {
     p_page: page,
     p_page_size: USERS_PAGE_SIZE,
+    p_search: search || null,
+    p_role: role,
   });
 
   if (error) throw friendlyError(error, "Staff accounts could not be loaded. Please try again.");

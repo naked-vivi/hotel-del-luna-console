@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import RequiredMark from "@/components/shared/required-mark";
 import StaffRolePicker from "@/components/staff/staff-role-picker";
 import { useUpdateStaff } from "@/hooks/staff/use-update-staff";
 import { errorId, validateStaffName } from "@/lib/helpers";
@@ -26,7 +27,7 @@ function EditStaffForm({ account, isSelf, onClose }: EditStaffFormProps) {
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)} aria-busy={isUpdating} className="flex flex-col gap-6">
       <div className="space-y-2">
-        <Label htmlFor="edit-fullName">Full name</Label>
+        <Label htmlFor="edit-fullName">Full name<RequiredMark /></Label>
         <Input {...register("fullName", { validate: validateStaffName })} id="edit-fullName" autoComplete="off" className="h-11" disabled={isUpdating}
           aria-invalid={Boolean(errors.fullName)} aria-describedby={errorId("edit-fullName", Boolean(errors.fullName))} />
         {errors.fullName && <FieldError id="edit-fullName-error" errors={[errors.fullName]} />}

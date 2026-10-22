@@ -4,6 +4,8 @@ import { Table, TableBody } from "@/components/ui/table";
 import ConfirmDelete from "@/components/shared/confirm-delete";
 import EmptyState from "@/components/shared/empty-state";
 import ErrorNote from "@/components/shared/error-note";
+import ErrorPanel from "@/components/shared/error-panel";
+import EmptyRoster from "@/components/staff/empty-roster";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import StaffTableHeader from "@/components/staff/staff-table-header";
 import StaffTableSkeleton from "@/components/staff/staff-table-skeleton";
@@ -13,10 +15,12 @@ import EditStaffModal from "@/components/staff/edit-staff-modal";
 import { useStaffAccounts } from "@/hooks/staff/use-staff-accounts";
 import { useDeleteStaff } from "@/hooks/staff/use-delete-staff";
 import { USERS_PAGE_SIZE } from "@/lib/constants";
+import { usePermissions } from "@/hooks/authentication/use-permissions";
 
 export default function StaffTable({ onAdd }: StaffTableProps) {
-  const { accounts, count, page, error, isPending, currentUserId } = useStaffAccounts();
+  const { accounts, count, page, error, isPending, currentUserId, isFiltered } = useStaffAccounts();
   const { deleteStaff, isDeleting } = useDeleteStaff();
+  const canManage = usePermissions().can("staff.manage");
   const [viewing, setViewing] = useState<UserAccount | null>(null);
   const [editing, setEditing] = useState<UserAccount | null>(null);
   const [deleting, setDeleting] = useState<UserAccount | null>(null);
@@ -25,15 +29,19 @@ export default function StaffTable({ onAdd }: StaffTableProps) {
 
   if (error) {
     return (
-      <div className="flex min-h-96 flex-col border border-border bg-card px-6">
-        <ErrorNote title="The staff list is out of reach" message={error.message} />
-      </div>
+      <ErrorPanel>
+        <ErrorNote title="The staff list is out of reach" message={error.message} drawing={<EmptyRoster clouded className="w-full max-w-64" />} />
+      </ErrorPanel>
     );
+  }
+
+  if (accounts.length === 0 && isFiltered) {
+    return <EmptyState drawing={<EmptyRoster className="w-full max-w-56" />} title="No staff match">Try another name, email or role, or clear the search.</EmptyState>;
   }
 
   if (accounts.length === 0) {
     return (
-      <EmptyState title="No staff yet" action={<Button onClick={onAdd}>Add staff</Button>}>
+      <EmptyState drawing={<EmptyRoster className="w-full max-w-56" />} title="No staff yet" action={<Button disabled={!canManage} onClick={onAdd}>Add staff</Button>}>
         Add the first member of staff to give them access to the console.
       </EmptyState>
     );
