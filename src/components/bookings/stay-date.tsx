@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-function StayDate({ label, date, note }: StayDateProps) {
+function StayDate({ label, date, note, time }: StayDateProps) {
   const d = new Date(date);
   return (
     <div className="min-w-0 space-y-2">
@@ -11,6 +11,7 @@ function StayDate({ label, date, note }: StayDateProps) {
       </p>
       <p className="text-[13px] text-muted-foreground">
         {format(d, "EEEE")}
+        {time ? ` · ${time}` : ""}
         {note ? ` · ${note}` : ""}
       </p>
     </div>

@@ -3,8 +3,10 @@ import { formatCurrency } from "@/lib/utils";
 import { arrivalNote, pluralize } from "@/lib/helpers";
 import BookingDataItem from "@/components/bookings/booking-data-item";
 import StayDate from "@/components/bookings/stay-date";
+import useSettings from "@/hooks/settings/use-settings";
 
 export function BookingDataBox({ booking }: BookingDataBoxProps) {
+  const { settings } = useSettings();
   const {
     created_at,
     startDate,
@@ -36,8 +38,8 @@ export function BookingDataBox({ booking }: BookingDataBoxProps) {
             {pluralize(numNights, "night")} · {pluralize(numGuests, "guest")}
           </p>
         </div>
-        <StayDate label="Arrival" date={startDate} note={arrivalNote(startDate)} />
-        <StayDate label="Departure" date={endDate} />
+        <StayDate label="Arrival" date={startDate} time={settings && `from ${settings.checkInTime}`} note={arrivalNote(startDate)} />
+        <StayDate label="Departure" date={endDate} time={settings && `by ${settings.checkOutTime}`} />
       </header>
 
       <div className="space-y-5 p-6 sm:p-8">
