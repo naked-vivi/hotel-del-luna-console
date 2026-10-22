@@ -1,14 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import PasswordInput from "@/shared/password-input";
+import PasswordInput from "@/components/shared/password-input";
 import { Label } from "@/components/ui/label";
 import { FieldError } from "@/components/ui/field";
-import { useUpdateUser } from "./use-update-user";
-
-type PasswordFormValues = {
-  password: string;
-  passwordConfirm: string;
-};
+import { useUpdateUser } from "@/hooks/authentication/use-update-user";
+import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm<PasswordFormValues>({
@@ -43,12 +39,12 @@ function UpdatePasswordForm() {
           disabled={isUpdating}
           {...register("password", {
             required: "This field is required",
-            minLength: { value: 8, message: "Password needs a minimum of 8 characters" },
+            minLength: { value: PASSWORD_MIN_LENGTH, message: `Password needs a minimum of ${PASSWORD_MIN_LENGTH} characters` },
           })}
         />
         {errors.password
           ? <FieldError id="password-error" errors={[errors.password]} />
-          : <p id="password-hint" className="text-xs text-muted-foreground">At least 8 characters.</p>}
+          : <p id="password-hint" className="text-xs text-muted-foreground">At least {PASSWORD_MIN_LENGTH} characters.</p>}
       </div>
 
       <div className="space-y-2">

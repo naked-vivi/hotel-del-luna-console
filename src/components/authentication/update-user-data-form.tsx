@@ -1,26 +1,24 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { SubmitEvent } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useUser from "./use-user";
-import { useUpdateUser } from "./use-update-user";
+import useUser from "@/hooks/authentication/use-user";
+import { useUpdateUser } from "@/hooks/authentication/use-update-user";
+import { useObjectUrl } from "@/hooks/shared/use-object-url";
+import { getUserProfile } from "@/lib/helpers";
 
-/** Your name and photo. Sits inside the "Your details" panel on the Account page. */
 function UpdateUserDataForm() {
   const { user, isPending } = useUser();
   const { updateUser, isUpdating } = useUpdateUser();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const currentFullName = user?.user_metadata?.fullName ?? "";
-  const currentAvatar = typeof user?.user_metadata?.avatar === "string" ? user.user_metadata.avatar : "";
+  const { fullName: currentFullName, avatar: currentAvatar } = getUserProfile(user);
 
   const [fullName, setFullName] = useState<string | null>(null);
   const [avatar, setAvatar] = useState<File | null>(null);
-  // Preview the chosen file before saving; release the temporary link when it changes.
-  const selectedUrl = useMemo(() => (avatar ? URL.createObjectURL(avatar) : ""), [avatar]);
-  useEffect(() => () => { if (selectedUrl) URL.revokeObjectURL(selectedUrl); }, [selectedUrl]);
+  const selectedUrl = useObjectUrl(avatar);
   const preview = selectedUrl || currentAvatar;
   const busy = isPending || isUpdating || !user;
   const isDirty = (fullName !== null && fullName.trim() !== currentFullName) || Boolean(avatar);

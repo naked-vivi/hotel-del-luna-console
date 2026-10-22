@@ -1,6 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import useUser from "./use-user";
+import useUser from "@/hooks/authentication/use-user";
+import { getUserProfile } from "@/lib/helpers";
+import { DEFAULT_AVATAR } from "@/lib/constants";
 
 function UserAvatar() {
   const { user, isPending } = useUser();
@@ -19,18 +21,12 @@ function UserAvatar() {
 
   if (!user) return null;
 
-  const metadataName = user.user_metadata?.fullName;
-  const fullName = typeof metadataName === "string" ? metadataName.trim() : "";
-  const displayName = fullName || user.email || "User";
-  const avatar = user.user_metadata?.avatar;
-  const initials = fullName
-    ? fullName.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()
-    : displayName[0].toUpperCase();
+  const { displayName, avatar, initials } = getUserProfile(user);
 
   return (
     <div className="flex min-w-0 items-center gap-3 text-foreground">
       <Avatar className="size-11 rounded-full ring-1 ring-border">
-        <AvatarImage src={typeof avatar === "string" ? avatar : "default-user.jpg"} alt={displayName} />
+        <AvatarImage src={avatar || DEFAULT_AVATAR} alt={displayName} />
         <AvatarFallback className="rounded-full">{initials}</AvatarFallback>
       </Avatar>
       <div className="hidden min-w-0 flex-col gap-1.5 xl:flex">

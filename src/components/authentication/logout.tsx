@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DoorOutIcon } from "@/shared/icons";
+import { DoorOutIcon } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
@@ -11,9 +11,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import useLogout from "./use-logout";
+import useLogout from "@/hooks/authentication/use-logout";
 
-/** Log out button. Asks for confirmation first, so a stray click never ends a shift. */
 function Logout() {
     const [isOpen, setIsOpen] = useState(false);
     const { logout, isPending } = useLogout();
