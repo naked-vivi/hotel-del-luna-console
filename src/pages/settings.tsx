@@ -1,15 +1,15 @@
-import UpdateSettingsForm from "@/features/settings/UpdateSettingsForm";
-
+import UpdateSettingsForm from "@/features/settings/update-settings-form";
+import PageHeader from "@/shared/page-header";
 
 function Settings() {
   return (
     <>
-      <h1 className="text-3xl font-bold tracking-tight text-foreground">
-        Update hotel settings
-      </h1>
-      <div className="mt-6">
-        <UpdateSettingsForm />
-      </div>
+      <PageHeader
+        eyebrow="House rules"
+        title="Hotel settings"
+        description="Booking limits and the breakfast rate. Changes apply to new bookings as soon as you save."
+      />
+      <UpdateSettingsForm />
     </>
   );
 }
