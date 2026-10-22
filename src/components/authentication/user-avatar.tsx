@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/hooks/authentication/use-user";
-import { getUserProfile } from "@/lib/helpers";
+import { getUserProfile, getUserRole } from "@/lib/helpers";
 import { DEFAULT_AVATAR } from "@/lib/constants";
 
 function UserAvatar() {
@@ -22,6 +22,7 @@ function UserAvatar() {
   if (!user) return null;
 
   const { displayName, avatar, initials } = getUserProfile(user);
+  const role = getUserRole(user);
 
   return (
     <div className="flex min-w-0 items-center gap-3 text-foreground">
@@ -33,7 +34,7 @@ function UserAvatar() {
         <span className="max-w-48 truncate text-[15px] leading-none" title={displayName}>
           {displayName}
         </span>
-        <span className="text-[9.5px] leading-none font-semibold uppercase tracking-[0.3em] text-gold">On duty</span>
+        <span className="text-[9.5px] leading-none font-semibold uppercase tracking-[0.3em] text-gold">{role === "admin" ? "Admin" : "Staff"} · on duty</span>
       </div>
     </div>
   );

@@ -2,15 +2,14 @@ import { useState } from "react";
 import { DoorOutIcon } from "@/components/icons/icons";
 import { Button } from "@/components/ui/button";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import useLogout from "@/hooks/authentication/use-logout";
 
 function Logout() {
@@ -23,23 +22,23 @@ function Logout() {
                 <DoorOutIcon className="size-4 stroke-[1.5]" />
             </Button>
 
-            <AlertDialog open={isOpen} onOpenChange={(open) => !isPending && setIsOpen(open)}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
+            <Dialog open={isOpen} onOpenChange={(open) => !isPending && setIsOpen(open)}>
+                <DialogContent showCloseButton={false} className="sm:max-w-md">
+                    <DialogHeader>
                         <p className="text-[10.5px] font-semibold uppercase tracking-[0.3em] text-gold">End of shift</p>
-                        <AlertDialogTitle>Log out of the console?</AlertDialogTitle>
-                        <AlertDialogDescription>
+                        <DialogTitle>Log out of the console?</DialogTitle>
+                        <DialogDescription>
                             You will need to log in again to see bookings, guests and tonight's arrivals.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel disabled={isPending}>Stay logged in</AlertDialogCancel>
-                        <AlertDialogAction disabled={isPending} onClick={() => logout()}>
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <DialogClose render={<Button variant="outline" disabled={isPending} />}>Stay logged in</DialogClose>
+                        <Button disabled={isPending} onClick={() => logout()}>
                             {isPending ? "Logging out..." : "Log out"}
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }

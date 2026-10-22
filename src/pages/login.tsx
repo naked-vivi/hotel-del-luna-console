@@ -1,5 +1,6 @@
 import LoginForm from "@/components/authentication/login-form";
 import NightDial from "@/components/authentication/night-dial";
+import DemoAccess from "@/components/authentication/demo-access";
 import Logo from "@/components/shared/logo";
 import { ModeToggle } from "@/components/shared/mode-toggle";
 import { useNow } from "@/hooks/shared/use-now";
@@ -46,6 +47,8 @@ function Login() {
           </div>
 
           <LoginForm />
+
+          <DemoAccess />
 
           <p className="border-t border-border pt-6 text-center text-sm whitespace-nowrap text-muted-foreground">
             Trouble logging in? Ask the duty manager.

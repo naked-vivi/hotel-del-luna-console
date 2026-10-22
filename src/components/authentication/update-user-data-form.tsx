@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import RequiredMark from "@/components/shared/required-mark";
 import useUser from "@/hooks/authentication/use-user";
 import { useUpdateUser } from "@/hooks/authentication/use-update-user";
 import { useObjectUrl } from "@/hooks/shared/use-object-url";
@@ -40,7 +41,7 @@ function UpdateUserDataForm() {
   return (
     <form onSubmit={handleSubmit} onReset={handleReset} aria-busy={busy} className="flex flex-1 flex-col gap-6">
       <div className="space-y-2">
-        <Label htmlFor="accountFullName">Full name</Label>
+        <Label htmlFor="accountFullName">Full name<RequiredMark /></Label>
         <Input
           type="text"
           id="accountFullName"
