@@ -1,9 +1,13 @@
+import type { ReactNode } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSearchParams } from "react-router-dom";
 
 export interface FilterOption {
     value: string;
-    label: string;
+    /** Text, or one of our SVG icons. */
+    label: ReactNode;
+    /** Spoken and hover name. Required when the label is an icon. */
+    title?: string;
 }
 
 interface FilterProps {
@@ -26,9 +30,9 @@ export default function Filter({ filterField, options }: FilterProps) {
 
     return (
         <Tabs className="min-w-0 max-w-full" value={currentFilter} onValueChange={handleFilterChange}>
-            <TabsList aria-label={`Filter by ${filterField}`} className="max-w-full flex-wrap group-data-horizontal/tabs:h-auto">
+            <TabsList aria-label={`Filter by ${filterField}`} className="no-scrollbar max-w-full flex-nowrap justify-start overflow-x-auto group-data-horizontal/tabs:h-auto">
                 {options.map((option) => (
-                    <TabsTrigger key={option.value} value={option.value}>
+                    <TabsTrigger key={option.value} value={option.value} className={`h-10 flex-none ${option.title ? "px-3.5 [&_svg]:size-4.5 dark:data-active:[--icon-accent:currentColor]" : ""}`} aria-label={option.title} title={option.title}>
                         {option.label}
                     </TabsTrigger>
                 ))}

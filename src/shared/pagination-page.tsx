@@ -33,7 +33,7 @@ export function PaginationPage({ count, page, pageSize }: PaginationPageProps) {
             href: disabled ? undefined : `?${pageParams(nextPage)}`,
             "aria-disabled": disabled || undefined,
             tabIndex: disabled ? -1 : undefined,
-            className: disabled ? "pointer-events-none opacity-50" : "cursor-pointer",
+            className: disabled ? "pointer-events-none opacity-50" : undefined,
             onClick(event: MouseEvent<HTMLAnchorElement>) {
                 if (disabled) {
                     event.preventDefault();
