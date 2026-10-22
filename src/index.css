@@ -6,8 +6,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Hotel del Luna brand scales: Midnight Steel (primary) and Moonlit Bronze (accent).
-   Use them as bg-primary-900, text-accent-400, etc. */
 @theme {
     --color-primary-50: #E1E8EF;
     --color-primary-100: #D4DEE7;
@@ -33,7 +31,6 @@
     --color-accent-900: #4B351B;
     --color-accent-950: #382814;
 
-    /* Sage: a muted green that sits with the steel and bronze. Used for small "on" marks like the Dev badge. */
     --color-sage-200: #CFE2D4;
     --color-sage-300: #A8CBB3;
     --color-sage-500: #6E9A7C;
@@ -76,10 +73,8 @@
     --color-foreground: var(--foreground);
     --color-background: var(--background);
 
-    /* The moon colour: logo, active states, one highlight per screen */
     --color-gold: var(--gold);
 
-    /* Booking and account status badges */
     --color-status-pending: var(--status-pending);
     --color-status-pending-bg: var(--status-pending-bg);
     --color-status-info: var(--status-info);
@@ -91,7 +86,6 @@
     --color-status-warning: var(--status-warning);
     --color-status-warning-bg: var(--status-warning-bg);
 
-    /* Sharp design: every corner is square. Only the moon is round. */
     --radius-xs: 0px;
     --radius-sm: 0px;
     --radius-md: 0px;
@@ -102,7 +96,6 @@
     --radius-4xl: 0px;
 }
 
-/* Day */
 :root {
     --background: #FAF5F0;
     --foreground: #1B2631;
@@ -131,7 +124,6 @@
     --chart-5: #926835;
     --radius: 0rem;
 
-    /* The sidebar stays at night in both modes */
     --sidebar: #141C24;
     --sidebar-foreground: #F4ECE1;
     --sidebar-primary: #D2AF84;
@@ -153,7 +145,6 @@
     --status-warning-bg: #F6EAD3;
 }
 
-/* Night */
 .dark {
     --background: #141C24;
     --foreground: #FAF5F0;
@@ -215,7 +206,6 @@
   :root {
     --icon-accent: var(--gold);
   }
-  /* No pointer cursor anywhere, links included. */
   a,
   [role="button"],
   button {
@@ -227,7 +217,6 @@
   }
 }
 
-/* Scrollbars */
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -264,7 +253,6 @@
   background: #555;
 }
 
-/* Loader: a shadow drifts across the moon, so it waxes and wanes without scaling or glowing. */
 @keyframes lunar-cycle {
   0% { transform: translateX(0); }
   50% { transform: translateX(42px); }
