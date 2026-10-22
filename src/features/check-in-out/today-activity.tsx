@@ -1,21 +1,40 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import useTodayActivity from "./useTodayActivity";
-import TodayItem from "./TodayItem";
-import Spinner from "@/shared/Spinner";
+import { format } from "date-fns";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import useTodayActivity from "./use-today-activity";
+import TodayItem from "./today-item";
+import KeyRack from "./key-rack";
+import ErrorNote from "@/shared/error-note";
+import CardSkeleton from "@/shared/card-skeleton";
+import { TODAY_CARD } from "../dashboard/card-sizes";
 
-function TodayActivity() {
+/** Empty state: every key is still on the rack, so nobody is coming or going. */
+function QuietNight() {
+  return (
+    <div className="my-auto flex flex-col items-center gap-7 py-6 text-center">
+      <KeyRack className="w-full max-w-72" />
+      <div className="space-y-2">
+        <p className="text-xl font-extralight text-foreground">All keys are on their hooks</p>
+        <p className="text-sm text-muted-foreground">No arrivals or departures today.</p>
+      </div>
+    </div>
+  );
+}
+
+/** `isLoading` lets the dashboard keep this card as a skeleton until every card is ready. */
+function TodayActivity({ isLoading = false }: { isLoading?: boolean }) {
   const { isPending, activities, error } = useTodayActivity();
 
+  if (isPending || isLoading) return <CardSkeleton className={TODAY_CARD} label="Loading tonight's arrivals and departures" />;
+
   return (
-    <Card className="col-span-full flex max-h-136 min-h-80 min-w-0 flex-col @min-[64rem]:col-span-2">
-      <CardHeader>
-        <CardTitle>Today</CardTitle>
+    <Card className={`flex flex-col ${TODAY_CARD}`}>
+      <CardHeader className="border-b border-border">
+        <CardTitle>Tonight</CardTitle>
+        <CardDescription>Arrivals and departures for {format(new Date(), "EEEE d MMMM")}</CardDescription>
       </CardHeader>
-      <CardContent className="@container/activity flex min-h-0 flex-1 flex-col overflow-y-auto" aria-busy={isPending}>
-        {isPending ? (
-          <Spinner />
-        ) : error ? (
-          <p role="alert" className="text-sm text-destructive">{error.message}</p>
+      <CardContent className="custom-scrollbar @container/activity flex min-h-0 flex-1 flex-col overflow-y-auto">
+        {error ? (
+          <ErrorNote message="Arrivals and departures could not be loaded." />
         ) : activities.length > 0 ? (
           <ul className="min-w-0">
             {activities.map((activity) => (
@@ -23,7 +42,7 @@ function TodayActivity() {
             ))}
           </ul>
         ) : (
-          <p className="my-auto py-8 text-center text-sm text-muted-foreground">No activity today.</p>
+          <QuietNight />
         )}
       </CardContent>
     </Card>

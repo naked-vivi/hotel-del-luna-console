@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import CheckoutButton from "./CheckoutButton";
+import CheckoutButton from "./checkout-button";
 
 type TodayItemProps = {
   activity: {
@@ -22,12 +22,12 @@ function TodayItem({ activity }: TodayItemProps) {
   const isDeparture = status === "checked-in";
 
   return (
-    <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 border-b border-border py-3 text-sm first:border-t @min-[30rem]/activity:grid-cols-[5.5rem_minmax(0,1fr)_4rem_7rem]">
+    <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-4 gap-y-3 border-b border-border py-4 text-sm last:border-b-0 @min-[30rem]/activity:grid-cols-[5.5rem_minmax(0,1fr)_4rem_7rem]">
       <span className={cn(
-        "justify-self-start rounded-md px-2 py-1 text-center text-xs font-semibold",
+        "justify-self-start border border-current/30 px-2 pt-1 pb-0.5 text-center text-[10px] font-semibold uppercase tracking-[0.2em]",
         isArrival
-          ? "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300"
-          : "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300",
+          ? "bg-status-success-bg text-status-success"
+          : "bg-status-info-bg text-status-info",
       )}>
         {isArrival ? "Arriving" : isDeparture ? "Departing" : "Completed"}
       </span>
@@ -35,10 +35,10 @@ function TodayItem({ activity }: TodayItemProps) {
       <div className="grid min-w-0 grid-cols-[1.5rem_minmax(0,1fr)] items-center gap-2">
         <span className="flex h-4 w-6 items-center">
         {guests?.countryFlag && (
-          <img src={guests.countryFlag} alt={guests.nationality ?? "Guest country"} className="h-4 w-6 shrink-0 rounded-sm object-cover" />
+          <img src={guests.countryFlag} alt={guests.nationality ?? "Guest country"} className="h-4 w-6 shrink-0 object-cover" />
         )}
         </span>
-        <span className="break-words font-medium" title={guests?.fullName}>{guests?.fullName ?? "Unknown guest"}</span>
+        <span className="wrap-break-word text-[15px] font-normal" title={guests?.fullName}>{guests?.fullName ?? "Unknown guest"}</span>
       </div>
       <span className="whitespace-nowrap tabular-nums text-muted-foreground @min-[30rem]/activity:text-right">{numNights} {numNights === 1 ? "night" : "nights"}</span>
       <div className="flex justify-end [&>button]:w-full [&>a]:w-full">
