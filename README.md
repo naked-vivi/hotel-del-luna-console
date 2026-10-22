@@ -1,10 +1,10 @@
-# The Wild Oasis
+# Hotel del Luna
 
 <p align="center">
-  <img src="src/data/img/logo-light.png" alt="The Wild Oasis logo" width="260" />
+  <img src="public/favicon.svg" alt="Hotel del Luna half-moon logo" width="96" />
 </p>
 
-The Wild Oasis is a responsive hotel-management dashboard for staff. It brings bookings, cabins, guest check-ins, business insights, user accounts, and hotel settings together in one protected application.
+Hotel del Luna is a responsive hotel-management dashboard for staff, designed with a sharp, moonlit European look: midnight-steel and bronze colours, Josefin Sans, and square corners throughout. It brings bookings, cabins, guest check-ins, business insights, user accounts, and hotel settings together in one protected application.
 
 ## Preview
 
@@ -43,7 +43,7 @@ The application opens on a protected dashboard and redirects unauthenticated vis
 | Category | Technologies |
 | --- | --- |
 | Frontend | React 19, TypeScript, Vite |
-| Styling | Tailwind CSS 4, shadcn, Base UI, Geist, Lucide React |
+| Styling | Tailwind CSS 4, shadcn, Base UI, Josefin Sans, Lucide React |
 | Routing | React Router |
 | Server state | TanStack Query |
 | Data display and charts | shadcn tables, Recharts |
@@ -72,7 +72,7 @@ the-wild-oasis/
 │   ├── pages/              # Route-level page components
 │   ├── services/           # Supabase client and API functions
 │   ├── shared/             # App shell, navigation, filters, and shared UI
-│   ├── App.tsx             # Providers and route definitions
+│   ├── app.tsx             # Providers and route definitions
 │   ├── index.css           # Theme tokens and global styles
 │   └── main.tsx            # Application entry point
 ├── supabase/               # Supabase notes and database migrations
