@@ -1,9 +1,5 @@
--- Apply in the Supabase SQL Editor as the project owner, after 202610020001_user_accounts_directory.sql.
--- Adds the Staff page actions: a richer account list, edit name and role, and delete.
--- Every function checks admin rights in auth.users on each call. No service-role key reaches the browser.
 begin;
 
--- Is the caller an administrator? Read from the database, never from editable user metadata.
 create or replace function public.is_console_admin()
 returns boolean
 language sql
@@ -21,7 +17,6 @@ $$;
 
 revoke all on function public.is_console_admin() from public, anon, authenticated;
 
--- One account as the Staff page sees it. Never returns passwords, tokens or other metadata.
 create or replace function public.staff_account_json(p_user_id uuid)
 returns jsonb
 language sql
@@ -45,7 +40,6 @@ $$;
 
 revoke all on function public.staff_account_json(uuid) from public, anon, authenticated;
 
--- List: same signature as before, now with avatar, role and last sign-in.
 create or replace function public.list_user_accounts(
   p_page integer default 1,
   p_page_size integer default 10
@@ -93,7 +87,6 @@ $$;
 revoke all on function public.list_user_accounts(integer, integer) from public, anon, authenticated;
 grant execute on function public.list_user_accounts(integer, integer) to authenticated;
 
--- Edit: change a person's name and role ('admin' or 'staff').
 create or replace function public.update_user_account(
   p_user_id uuid,
   p_full_name text,
@@ -144,7 +137,6 @@ $$;
 revoke all on function public.update_user_account(uuid, text, text) from public, anon, authenticated;
 grant execute on function public.update_user_account(uuid, text, text) to authenticated;
 
--- Delete: remove an account for good. Admins cannot delete themselves.
 create or replace function public.delete_user_account(p_user_id uuid)
 returns void
 language plpgsql
