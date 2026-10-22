@@ -1,23 +1,6 @@
-import { getToday } from "../lib/utils";
+import { getToday } from "@/lib/utils";
+import { BOOKINGS_PAGE_SIZE } from "@/lib/constants";
 import supabase from "./supabase";
-
-export interface FilterOption {
-  field: string;
-  value: string;
-}
-
-export interface SortOption {
-  field: string;
-  direction: string;
-}
-
-export const BOOKINGS_PAGE_SIZE = 10;
-
-interface GetBookingsArgs {
-  filter: FilterOption | null;
-  sortBy: SortOption | null;
-  page: number;
-}
 
 export async function getBookings({ filter, sortBy, page }: GetBookingsArgs) {
   // Explicitly type query to prevent Supabase's recursive generic explosion
@@ -50,21 +33,7 @@ export async function getBookings({ filter, sortBy, page }: GetBookingsArgs) {
   return { bookings: data ?? [], count: count ?? 0 };
 }
 
-export interface ChartBooking {
-  id: number;
-  startDate: string;
-  endDate: string;
-  numNights: number;
-  status: string;
-  cabinId: number;
-  numGuests: number;
-  totalPrice: number;
-  isPaid: boolean;
-  guests: { fullName: string; email: string } | null;
-}
-
-/** Every stay that overlaps the days from `from` up to (not including) `to`. Dates as yyyy-MM-dd. */
-export async function getBookingsInRange({ from, to, status }: { from: string; to: string; status: string | null }): Promise<ChartBooking[]> {
+export async function getBookingsInRange({ from, to, status }: BookingsInRangeArgs): Promise<ChartBooking[]> {
   let query = supabase
     .from("bookings")
     .select("id, startDate, endDate, numNights, status, cabinId, numGuests, totalPrice, isPaid, guests(fullName, email)")
@@ -82,7 +51,7 @@ export async function getBookingsInRange({ from, to, status }: { from: string; t
   return (data ?? []) as unknown as ChartBooking[];
 }
 
-export async function getBooking(id) {
+export async function getBooking(id: number | string): Promise<BookingDetails> {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guests(*)")
@@ -151,7 +120,7 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id, obj) {
+export async function updateBooking(id: number, obj: BookingUpdate) {
   const { data, error } = await supabase
     .from("bookings")
     .update(obj)
@@ -166,7 +135,7 @@ export async function updateBooking(id, obj) {
   return data;
 }
 
-export async function deleteBooking(id) {
+export async function deleteBooking(id: number) {
   // REMEMBER RLS POLICIES
   const { data, error } = await supabase.from("bookings").delete().eq("id", id);
 

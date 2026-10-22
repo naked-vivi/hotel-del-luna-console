@@ -1,6 +1,7 @@
 import supabase, { supabaseUrl } from "./supabase";
+import { CABIN_IMAGE_BUCKET, SUPABASE_ERROR_CODES } from "@/lib/constants";
 
-export async function getCabins() {
+export async function getCabins(): Promise<Cabin[]> {
     const { data, error } = await supabase
         .from('cabins')
         .select('*')
@@ -12,7 +13,7 @@ export async function getCabins() {
     return data;
 }
 
-export async function createCabin(newCabin, id?: number) {
+export async function createCabin(newCabin: CabinFormValues, id?: number) {
     const hasImagePath = typeof newCabin.image === "string" && newCabin.image.startsWith(supabaseUrl);
 
     let imagePath = newCabin.image;
@@ -21,9 +22,9 @@ export async function createCabin(newCabin, id?: number) {
             throw new Error("Choose an image for this cabin");
         }
         const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll("/", "");
-        imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+        imagePath = `${supabaseUrl}/storage/v1/object/public/${CABIN_IMAGE_BUCKET}/${imageName}`;
         const { error: storageError } = await supabase.storage
-            .from("cabin-images")
+            .from(CABIN_IMAGE_BUCKET)
             .upload(imageName, newCabin.image);
 
         if (storageError) {
@@ -55,7 +56,7 @@ export async function deleteCabin(id: number) {
 
     if (error) {
         console.error(error)
-        if (error.code === "23503") {
+        if (error.code === SUPABASE_ERROR_CODES.foreignKey) {
             throw new Error("This cabin cannot be deleted because it is linked to existing records, such as bookings.");
         }
         throw new Error(`Cabin could not be deleted: ${error.message}`)

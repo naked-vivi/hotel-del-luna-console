@@ -1,10 +1,5 @@
 import supabase, { signupClient, supabaseUrl } from "./supabase";
-
-interface SignupCredentials {
-    fullName: string;
-    email: string;
-    password: string;
-}
+import { AVATAR_BUCKET } from "@/lib/constants";
 
 export async function signup({ fullName, email, password }: SignupCredentials) {
     const { data, error } = await signupClient.auth.signUp({
@@ -16,12 +11,6 @@ export async function signup({ fullName, email, password }: SignupCredentials) {
     if (error) throw new Error(error.message);
     if (!data.user) throw new Error("Unable to create the user. Please try again.");
     return data;
-}
-
-
-interface LoginCredentials {
-    email: string;
-    password: string;
 }
 
 export async function login({ email, password }: LoginCredentials) {
@@ -53,12 +42,6 @@ export async function logout() {
         throw new Error(error.message)
 }
 
-interface UpdateUserData {
-    password?: string;
-    fullName?: string;
-    avatar?: File | null;
-}
-
 export async function updateCurrentUser({ password, fullName, avatar }: UpdateUserData) {
     //1.update password or fullname
     let updateData;
@@ -75,7 +58,7 @@ export async function updateCurrentUser({ password, fullName, avatar }: UpdateUs
     //2.upload the avatar image
     const fileName = `avatar-${data.user.id}-${Math.random()}`;
 
-    const { error: storageError } = await supabase.storage.from('avatars').upload(fileName, avatar);
+    const { error: storageError } = await supabase.storage.from(AVATAR_BUCKET).upload(fileName, avatar);
 
     if (storageError)
         throw new Error(storageError.message)
@@ -83,7 +66,7 @@ export async function updateCurrentUser({ password, fullName, avatar }: UpdateUs
     //3.update avatar in the user
     const { data: updatedUser, error: error2 } = await supabase.auth.updateUser({
         data: {
-            avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`
+            avatar: `${supabaseUrl}/storage/v1/object/public/${AVATAR_BUCKET}/${fileName}`
         }
     })
     if (error2)

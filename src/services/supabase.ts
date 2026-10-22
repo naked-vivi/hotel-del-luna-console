@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { SIGNUP_STORAGE_KEY } from '@/lib/constants'
 
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -15,7 +16,7 @@ export const signupClient = createClient(supabaseUrl, supabaseKey, {
         persistSession: false,
         autoRefreshToken: false,
         detectSessionInUrl: false,
-        storageKey: 'del-luna-signup',
+        storageKey: SIGNUP_STORAGE_KEY,
     },
 })
 
