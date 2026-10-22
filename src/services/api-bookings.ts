@@ -50,6 +50,38 @@ export async function getBookings({ filter, sortBy, page }: GetBookingsArgs) {
   return { bookings: data ?? [], count: count ?? 0 };
 }
 
+export interface ChartBooking {
+  id: number;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  status: string;
+  cabinId: number;
+  numGuests: number;
+  totalPrice: number;
+  isPaid: boolean;
+  guests: { fullName: string; email: string } | null;
+}
+
+/** Every stay that overlaps the days from `from` up to (not including) `to`. Dates as yyyy-MM-dd. */
+export async function getBookingsInRange({ from, to, status }: { from: string; to: string; status: string | null }): Promise<ChartBooking[]> {
+  let query = supabase
+    .from("bookings")
+    .select("id, startDate, endDate, numNights, status, cabinId, numGuests, totalPrice, isPaid, guests(fullName, email)")
+    .lt("startDate", to)
+    .gt("endDate", from)
+    .order("startDate");
+
+  if (status && status !== "all") query = query.eq("status", status);
+
+  const { data, error } = await query;
+  if (error) {
+    console.error(error);
+    throw new Error("The room chart could not be loaded");
+  }
+  return (data ?? []) as unknown as ChartBooking[];
+}
+
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
