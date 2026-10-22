@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import useTodayActivity from "@/hooks/check-in-out/use-today-activity";
 import TodayItem from "@/components/check-in-out/today-item";
 import QuietNight from "@/components/check-in-out/quiet-night";
+import KeyRack from "@/components/check-in-out/key-rack";
 import ErrorNote from "@/components/shared/error-note";
 import CardSkeleton from "@/components/shared/card-skeleton";
 import { TODAY_CARD } from "@/lib/constants";
@@ -20,7 +21,7 @@ function TodayActivity({ isLoading = false }: TodayActivityProps) {
       </CardHeader>
       <CardContent className="custom-scrollbar @container/activity flex min-h-0 flex-1 flex-col overflow-y-auto">
         {error ? (
-          <ErrorNote message="Arrivals and departures could not be loaded." />
+          <ErrorNote title="The front desk is in the fog" message="Arrivals and departures could not be loaded." drawing={<KeyRack clouded className="w-full max-w-72" />} />
         ) : activities.length > 0 ? (
           <ul className="min-w-0">
             {activities.map((activity) => (

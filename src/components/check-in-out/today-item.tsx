@@ -31,7 +31,7 @@ function TodayItem({ activity }: TodayItemProps) {
       <span className="whitespace-nowrap tabular-nums text-muted-foreground @min-[30rem]/activity:text-right">{pluralize(numNights, "night")}</span>
       <div className="flex justify-end [&>button]:w-full [&>a]:w-full">
       {isArrival && (
-        <Button size="sm" render={<Link to={`/checkin/${id}`} />}>Check in</Button>
+        <Button size="sm" render={<Link to={`/checkin/${id}`} />} nativeButton={false}>Check in</Button>
       )}
       {isDeparture && <CheckoutButton bookingId={id} />}
       </div>

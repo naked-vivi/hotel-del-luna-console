@@ -1,6 +1,7 @@
+import FogCloud from "@/components/shared/fog-cloud";
 import { KEY_RACK_HOOKS } from "@/lib/constants";
 
-function KeyRack({ className }: ClassNameProps) {
+function KeyRack({ className, clouded = false }: DrawingProps) {
   return (
     <svg viewBox="0 0 260 132" aria-hidden="true" className={className} fill="none">
       <path d="M18 18H242" className="stroke-border" strokeWidth="1.2" />
@@ -41,6 +42,7 @@ function KeyRack({ className }: ClassNameProps) {
           </g>
         );
       })}
+      {clouded && <FogCloud x={124} y={56} scale={0.85} />}
     </svg>
   );
 }

@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/toast";
+import { toast } from "sonner";
 import { updateBooking } from "@/services/api-bookings";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -16,10 +16,10 @@ export function useCheckout() {
             queryClient.invalidateQueries({ queryKey: ["bookings"] });
             queryClient.invalidateQueries({ queryKey: ["today-activity"] });
             queryClient.invalidateQueries({ queryKey: ["stays"] });
-            toast.add({ type: "success", description: `Booking ${updatedBooking.id} successfully checked out` });
+            toast.success(`Booking #${updatedBooking.id} checked out`, { description: "The room is free for the next guest." });
         },
         onError: (err: Error) => {
-            toast.add({ type: "error", description: err.message });
+            toast.error("Couldn't check out", { description: err.message });
         },
     });
     return { checkOut, isCheckingOut };
