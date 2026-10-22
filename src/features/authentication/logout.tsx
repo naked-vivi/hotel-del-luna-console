@@ -1,15 +1,47 @@
-import { LogOut } from "lucide-react";
+import { useState } from "react";
+import { DoorOutIcon } from "@/shared/icons";
 import { Button } from "@/components/ui/button";
-import useLogout from "./useLogout";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import useLogout from "./use-logout";
 
+/** Log out button. Asks for confirmation first, so a stray click never ends a shift. */
 function Logout() {
+    const [isOpen, setIsOpen] = useState(false);
     const { logout, isPending } = useLogout();
 
     return (
-        <Button variant="ghost" className="gap-2 cursor-pointer" disabled={isPending} onClick={() => logout()}>
-            <LogOut className="h-4 w-4" />
-            <span>Logout</span>
-        </Button>
+        <>
+            <Button variant="ghost" size="icon" disabled={isPending} onClick={() => setIsOpen(true)} aria-label="Log out" title="Log out">
+                <DoorOutIcon className="size-4 stroke-[1.5]" />
+            </Button>
+
+            <AlertDialog open={isOpen} onOpenChange={(open) => !isPending && setIsOpen(open)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <p className="text-[10.5px] font-semibold uppercase tracking-[0.3em] text-gold">End of shift</p>
+                        <AlertDialogTitle>Log out of the console?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            You will need to log in again to see bookings, guests and tonight's arrivals.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel disabled={isPending}>Stay logged in</AlertDialogCancel>
+                        <AlertDialogAction disabled={isPending} onClick={() => logout()}>
+                            {isPending ? "Logging out..." : "Log out"}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
     );
 }
 
