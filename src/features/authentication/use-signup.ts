@@ -1,11 +1,13 @@
 import { toast } from "@/components/ui/toast";
-import { signup as signupApi } from "@/services/apiAuth";
-import { useMutation } from "@tanstack/react-query";
+import { signup as signupApi } from "@/services/api-auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useSignup() {
+    const queryClient = useQueryClient();
     const { mutate: signup, isPending } = useMutation({
         mutationFn: signupApi,
         onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["user-accounts"] });
             toast.add({
                 type: "success",
                 description: data?.session
