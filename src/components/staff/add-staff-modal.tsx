@@ -1,8 +1,7 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import SignupForm from "../authentication/signup-form";
+import SignupForm from "@/components/authentication/signup-form";
 
-/** Create a new staff account in a modal. */
-function AddStaffModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-xl">
