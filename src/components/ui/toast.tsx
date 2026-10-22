@@ -3,7 +3,7 @@ import { Toast as ToastPrimitive } from "@base-ui/react/toast"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { CloseIcon as XIcon, SuccessIcon as CircleCheckIcon, InfoIcon, WarningIcon as TriangleAlertIcon, ErrorIcon as OctagonXIcon, LoaderIcon as Loader2Icon } from "@/shared/icons"
+import { CloseIcon as XIcon, SuccessIcon as CircleCheckIcon, InfoIcon, WarningIcon as TriangleAlertIcon, ErrorIcon as OctagonXIcon, LoaderIcon as Loader2Icon } from "@/components/icons/icons"
 
 const toast = ToastPrimitive.createToastManager()
 
