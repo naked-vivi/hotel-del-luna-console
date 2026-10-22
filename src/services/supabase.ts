@@ -15,7 +15,7 @@ export const signupClient = createClient(supabaseUrl, supabaseKey, {
         persistSession: false,
         autoRefreshToken: false,
         detectSessionInUrl: false,
-        storageKey: 'wild-oasis-signup',
+        storageKey: 'del-luna-signup',
     },
 })
 
