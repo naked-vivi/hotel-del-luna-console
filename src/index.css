@@ -1,13 +1,48 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "@fontsource-variable/josefin-sans/wght.css";
+@import "@fontsource-variable/josefin-sans/wght-italic.css";
 
 @custom-variant dark (&:is(.dark *));
 
+/* Hotel del Luna brand scales: Midnight Steel (primary) and Moonlit Bronze (accent).
+   Use them as bg-primary-900, text-accent-400, etc. */
+@theme {
+    --color-primary-50: #E1E8EF;
+    --color-primary-100: #D4DEE7;
+    --color-primary-200: #B7C7D7;
+    --color-primary-300: #99B0C7;
+    --color-primary-400: #7C99B6;
+    --color-primary-500: #5E82A6;
+    --color-primary-600: #4C6B8A;
+    --color-primary-700: #3C546C;
+    --color-primary-800: #2C3D4F;
+    --color-primary-900: #1B2631;
+    --color-primary-950: #141C24;
+
+    --color-accent-50: #FAF5F0;
+    --color-accent-100: #F4ECE1;
+    --color-accent-200: #E8D6BF;
+    --color-accent-300: #DDC2A2;
+    --color-accent-400: #D2AF84;
+    --color-accent-500: #C69963;
+    --color-accent-600: #B78343;
+    --color-accent-700: #926835;
+    --color-accent-800: #6C4D28;
+    --color-accent-900: #4B351B;
+    --color-accent-950: #382814;
+
+    /* Sage: a muted green that sits with the steel and bronze. Used for small "on" marks like the Dev badge. */
+    --color-sage-200: #CFE2D4;
+    --color-sage-300: #A8CBB3;
+    --color-sage-500: #6E9A7C;
+    --color-sage-700: #3D6A4E;
+}
+
 @theme inline {
+    --font-sans: 'Josefin Sans Variable', 'Futura', 'Avenir Next', ui-sans-serif, system-ui, sans-serif;
     --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -25,6 +60,7 @@
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
@@ -39,92 +75,210 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+
+    /* The moon colour: logo, active states, one highlight per screen */
+    --color-gold: var(--gold);
+
+    /* Booking and account status badges */
+    --color-status-pending: var(--status-pending);
+    --color-status-pending-bg: var(--status-pending-bg);
+    --color-status-info: var(--status-info);
+    --color-status-info-bg: var(--status-info-bg);
+    --color-status-success: var(--status-success);
+    --color-status-success-bg: var(--status-success-bg);
+    --color-status-neutral: var(--status-neutral);
+    --color-status-neutral-bg: var(--status-neutral-bg);
+    --color-status-warning: var(--status-warning);
+    --color-status-warning-bg: var(--status-warning-bg);
+
+    /* Sharp design: every corner is square. Only the moon is round. */
+    --radius-xs: 0px;
+    --radius-sm: 0px;
+    --radius-md: 0px;
+    --radius-lg: 0px;
+    --radius-xl: 0px;
+    --radius-2xl: 0px;
+    --radius-3xl: 0px;
+    --radius-4xl: 0px;
 }
 
+/* Day */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: #45634b;
-    --primary-foreground: #ffffff;
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: #edf3ed;
-    --accent-foreground: #354e3b;
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: #65805b;
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: #45634b;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #edf3ed;
-    --sidebar-accent-foreground: #354e3b;
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: #65805b;
+    --background: #FAF5F0;
+    --foreground: #1B2631;
+    --card: #FFFFFF;
+    --card-foreground: #1B2631;
+    --popover: #FFFFFF;
+    --popover-foreground: #1B2631;
+    --primary: #1B2631;
+    --primary-foreground: #FAF5F0;
+    --secondary: #F4ECE1;
+    --secondary-foreground: #1B2631;
+    --muted: #F4ECE1;
+    --muted-foreground: #4C6B8A;
+    --accent: #F4ECE1;
+    --accent-foreground: #1B2631;
+    --destructive: #A8432F;
+    --destructive-foreground: #FAF5F0;
+    --border: #E8D6BF;
+    --input: #DDC2A2;
+    --ring: #B78343;
+    --gold: #B78343;
+    --chart-1: #B78343;
+    --chart-2: #5E82A6;
+    --chart-3: #DDC2A2;
+    --chart-4: #3C546C;
+    --chart-5: #926835;
+    --radius: 0rem;
+
+    /* The sidebar stays at night in both modes */
+    --sidebar: #141C24;
+    --sidebar-foreground: #F4ECE1;
+    --sidebar-primary: #D2AF84;
+    --sidebar-primary-foreground: #141C24;
+    --sidebar-accent: #1B2631;
+    --sidebar-accent-foreground: #FAF5F0;
+    --sidebar-border: #2C3D4F;
+    --sidebar-ring: #D2AF84;
+
+    --status-pending: #5E5590;
+    --status-pending-bg: #ECEAF5;
+    --status-info: #3C546C;
+    --status-info-bg: #E1E8EF;
+    --status-success: #3D6A4E;
+    --status-success-bg: #E7EFE9;
+    --status-neutral: #6C4D28;
+    --status-neutral-bg: #F4ECE1;
+    --status-warning: #8A5A12;
+    --status-warning-bg: #F6EAD3;
 }
 
+/* Night */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: #a4c49b;
-    --primary-foreground: #192b1e;
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: #304530;
-    --accent-foreground: #d8edcd;
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: #a4c49b;
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: #a4c49b;
-    --sidebar-primary-foreground: #192b1e;
-    --sidebar-accent: #304530;
-    --sidebar-accent-foreground: #d8edcd;
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: #a4c49b;
+    --background: #141C24;
+    --foreground: #FAF5F0;
+    --card: #1B2631;
+    --card-foreground: #FAF5F0;
+    --popover: #1B2631;
+    --popover-foreground: #FAF5F0;
+    --primary: #C69963;
+    --primary-foreground: #141C24;
+    --secondary: #2C3D4F;
+    --secondary-foreground: #FAF5F0;
+    --muted: #2C3D4F;
+    --muted-foreground: #99B0C7;
+    --accent: #2C3D4F;
+    --accent-foreground: #FAF5F0;
+    --destructive: #E07A66;
+    --destructive-foreground: #141C24;
+    --border: #2C3D4F;
+    --input: #3C546C;
+    --ring: #C69963;
+    --gold: #D2AF84;
+    --chart-1: #D2AF84;
+    --chart-2: #7C99B6;
+    --chart-3: #E8D6BF;
+    --chart-4: #B7C7D7;
+    --chart-5: #C69963;
+
+    --sidebar: #10161D;
+    --sidebar-foreground: #F4ECE1;
+    --sidebar-primary: #D2AF84;
+    --sidebar-primary-foreground: #141C24;
+    --sidebar-accent: #1B2631;
+    --sidebar-accent-foreground: #FAF5F0;
+    --sidebar-border: #2C3D4F;
+    --sidebar-ring: #D2AF84;
+
+    --status-pending: #C4BDE8;
+    --status-pending-bg: rgb(150 140 210 / 0.16);
+    --status-info: #B7C7D7;
+    --status-info-bg: rgb(94 130 166 / 0.16);
+    --status-success: #A8CBB3;
+    --status-success-bg: rgb(120 170 135 / 0.14);
+    --status-neutral: #DDC2A2;
+    --status-neutral-bg: rgb(198 153 99 / 0.14);
+    --status-warning: #E8C27A;
+    --status-warning-bg: rgb(232 194 122 / 0.12);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
   body {
-    @apply bg-background text-foreground;
-    }
+    @apply bg-background text-foreground antialiased;
+  }
   html {
     @apply font-sans;
-    }
+  }
+  :root {
+    --icon-accent: var(--gold);
+  }
+  /* No pointer cursor anywhere, links included. */
+  a,
+  [role="button"],
+  button {
+    cursor: default;
+  }
+  ::selection {
+    background: var(--gold);
+    color: var(--primary-foreground);
+  }
+}
+
+/* Scrollbars */
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track,
+[data-theme='dark'] .custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--card);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cccccc;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb,
+[data-theme='dark'] .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2C3D4F;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Loader: a shadow drifts across the moon, so it waxes and wanes without scaling or glowing. */
+@keyframes lunar-cycle {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(42px); }
+  50.01% { transform: translateX(-42px); }
+  100% { transform: translateX(0); }
+}
+
+.lunar-shadow {
+  animation: lunar-cycle 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lunar-shadow {
+    animation: none;
+    transform: translateX(21px);
+  }
 }
