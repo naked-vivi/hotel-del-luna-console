@@ -1,9 +1,18 @@
-import SortBy from "@/shared/sortBy";
+import SortBy from "@/shared/sort-by";
 import Filter from "@/shared/filter";
+import { ListViewIcon, RoomChartIcon } from "@/shared/icons";
 
-function BookingTableOperations() {
+/** View switch, status filter, and (in the list) sorting. The room chart is always in date order. */
+function BookingTableOperations({ view = "list" }: { view?: "list" | "chart" }) {
   return (
-    <div className="flex min-w-0 max-w-full flex-wrap items-center gap-4">
+    <div className="flex min-w-0 max-w-full flex-wrap items-center justify-end gap-3">
+      <Filter
+        filterField="view"
+        options={[
+          { value: "list", label: <ListViewIcon />, title: "List view" },
+          { value: "chart", label: <RoomChartIcon />, title: "Room chart" },
+        ]}
+      />
       <Filter
         filterField="status"
         options={[
@@ -13,7 +22,7 @@ function BookingTableOperations() {
           { value: "checked-out", label: "Checked out" },
         ]}
       />
-      <SortBy options={[
+      {view === "list" && <SortBy options={[
         { value: "startDate-desc", label: "Sort by date (recent first)" },
         { value: "startDate-asc", label: "Sort by date (earlier first)" },
         {
@@ -21,7 +30,7 @@ function BookingTableOperations() {
           label: "Sort by amount (high first)",
         },
         { value: "totalPrice-asc", label: "Sort by amount (low first)" },
-      ]} />
+      ]} />}
     </div>
 
   );
