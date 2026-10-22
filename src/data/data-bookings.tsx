@@ -77,6 +77,17 @@ export const bookings = [
     isPaid: false,
     numGuests: 2,
   },
+  {
+    created_at: fromToday(-38, true),
+    startDate: fromToday(-20),
+    endDate: fromToday(-15),
+    cabinId: 2,
+    guestId: 25,
+    hasBreakfast: true,
+    observations: '',
+    isPaid: true,
+    numGuests: 2,
+  },
 
   // CABIN 003
   {
@@ -252,6 +263,17 @@ export const bookings = [
     observations: '',
     isPaid: true,
     numGuests: 6,
+  },
+  {
+    created_at: fromToday(-12, true),
+    startDate: fromToday(4),
+    endDate: fromToday(9),
+    cabinId: 7,
+    guestId: 28,
+    hasBreakfast: true,
+    observations: '',
+    isPaid: false,
+    numGuests: 5,
   },
 
   // CABIN 008
