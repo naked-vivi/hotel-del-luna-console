@@ -18,7 +18,7 @@ function DurationChart({ confirmedStays, error }: DurationChartProps) {
       </CardHeader>
       <CardContent className="flex min-h-0 flex-1 flex-col">
         {error ? (
-          <ErrorNote message="Stays could not be loaded. Try again shortly." />
+          <ErrorNote title="The nights are clouded over" message="Stays could not be loaded. Try again shortly." drawing={<UnlitNights clouded className="w-full max-w-72" />} />
         ) : totalStays === 0 ? (
           <CardEmptyState drawing={<UnlitNights className="w-full max-w-72" />} title="No nights to count yet" message="No stays in this period." />
         ) : (

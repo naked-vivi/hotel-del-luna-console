@@ -13,7 +13,7 @@ function Dashboard() {
         eyebrow={greeting()}
         title="Dashboard"
         description="How the house is doing: bookings, revenue, tonight's arrivals and how long guests stay."
-        actions={<DashboardFilter />}
+        toolbar={<DashboardFilter />}
       />
 
       <DashboardLayout />

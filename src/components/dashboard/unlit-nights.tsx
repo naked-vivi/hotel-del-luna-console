@@ -1,6 +1,7 @@
+import FogCloud from "@/components/shared/fog-cloud";
 import { WEEKDAY_INITIALS } from "@/lib/constants";
 
-function UnlitNights({ className }: ClassNameProps) {
+function UnlitNights({ className, clouded = false }: DrawingProps) {
   return (
     <svg viewBox="0 0 260 64" aria-hidden="true" className={className} fill="none">
       {WEEKDAY_INITIALS.map((day, i) => {
@@ -28,6 +29,7 @@ function UnlitNights({ className }: ClassNameProps) {
           </g>
         );
       })}
+      {clouded && <FogCloud x={140} y={4} scale={0.7} />}
     </svg>
   );
 }

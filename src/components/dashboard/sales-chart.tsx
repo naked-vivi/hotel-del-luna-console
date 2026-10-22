@@ -25,7 +25,7 @@ function SalesChart({ bookings, numDays, error }: SalesChartProps) {
       </CardHeader>
       <CardContent className="flex min-h-0 flex-1 flex-col">
         {error ? (
-          <ErrorNote message="Revenue could not be loaded. Try again shortly." />
+          <ErrorNote title="The ledger is out of reach" message="Revenue could not be loaded. Try again shortly." drawing={<BlankLedger clouded className="w-full max-w-72" />} />
         ) : bookings.length === 0 ? (
           <CardEmptyState drawing={<BlankLedger className="w-full max-w-72" />} title="The ledger is still blank" message="No bookings in this period." />
         ) : (
