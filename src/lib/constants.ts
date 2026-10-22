@@ -13,6 +13,7 @@ export const QUERY_STALE_TIME = 0;
 
 export const MOBILE_BREAKPOINT = 768;
 
+export const LOADING_DOT_DELAYS = [0, 160, 320];
 export const TOAST_DURATION = 4500;
 export const TOAST_CLASS_NAMES: ToastClassnames = {
   toast: "group flex w-(--width) items-center gap-3.5 border border-border bg-card py-3.5 pr-3 pl-4.5 font-sans text-foreground dark:border-primary-800 dark:bg-primary-975 data-[expanded=false]:data-[front=false]:*:opacity-0",

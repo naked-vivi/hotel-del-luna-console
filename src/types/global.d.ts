@@ -173,6 +173,8 @@ type DrawingProps = ClassNameProps & { clouded?: boolean };
 
 type ErrorPanelProps = { children: ReactNode };
 
+type LoadingDotsProps = { label: string };
+
 type FogCloudProps = {
   x: number;
   y: number;
