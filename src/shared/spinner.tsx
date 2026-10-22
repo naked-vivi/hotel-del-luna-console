@@ -1,11 +1,11 @@
-import { Loader2 } from "lucide-react";
+import LunarCycle from "./lunar-cycle";
 
+/** Inline loader for small areas: the same moon as the page loader, smaller. */
 function Spinner() {
     return (
-        <div className="flex items-center justify-center p-4" role="status">
+        <div className="flex items-center justify-center py-16" role="status">
             <span className="sr-only">Loading...</span>
-            {/* animate-spin makes it rotate continuously */}
-            <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+            <LunarCycle className="size-10" />
         </div>
     );
 }
