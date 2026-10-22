@@ -1,5 +1,5 @@
-import MainNav from "@/shared/MainNav"
-import Logo from "./Logo"
+import MainNav from "@/shared/main-nav"
+import Logo from "./logo"
 import {
     Sidebar,
     SidebarContent,
@@ -8,28 +8,34 @@ import {
     SidebarHeader,
 } from "@/components/ui/sidebar"
 import { Collapsible } from "@/components/ui/collapsible"
-import Uploader from "@/data/Uploader"
+import Uploader from "@/data/uploader"
 
 export function AppSidebar() {
     return (
-        <Sidebar>
-            <SidebarHeader>
-                <Logo />
+        <Sidebar className="[--icon-accent:var(--sidebar-primary)]">
+            <SidebarHeader className="px-6 pt-12 pb-10">
+                <div className="flex justify-center">
+                    <Logo tone="night" />
+                </div>
             </SidebarHeader>
 
-            <SidebarContent>
+            <SidebarContent className="px-3">
                 <Collapsible defaultOpen className="group/collapsible">
-                    <SidebarGroup>
+                    <SidebarGroup className="p-0">
+                        <p className="px-4 pb-3 text-[9.5px] font-semibold uppercase tracking-[0.36em] text-primary-500">
+                            The house
+                        </p>
                         <MainNav />
                     </SidebarGroup>
                 </Collapsible>
             </SidebarContent>
 
-            {import.meta.env.DEV && (
-                <SidebarFooter>
-                    <Uploader />
-                </SidebarFooter>
-            )}
+            <SidebarFooter className="gap-4 px-6 pb-8">
+                {import.meta.env.DEV && <Uploader />}
+                <p className="text-center text-[9.5px] font-semibold uppercase tracking-[0.36em] text-primary-500">
+                    Open dusk till dawn
+                </p>
+            </SidebarFooter>
         </Sidebar>
     )
 }

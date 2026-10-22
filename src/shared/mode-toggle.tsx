@@ -1,4 +1,4 @@
-import { Moon, Sun } from "lucide-react"
+import { MoonIcon, SunIcon } from "@/shared/icons"
 
 import { Button } from "@/components/ui/button"
 import { useTheme } from "./theme-provider"
@@ -16,15 +16,15 @@ export function ModeToggle() {
     return (
         <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="icon"
             className="relative"
             onClick={toggleTheme}
-            aria-label="Toggle light and dark mode"
-            title="Toggle light and dark mode"
+            aria-label="Switch between day and night"
+            title="Switch between day and night"
         >
-            <Sun aria-hidden="true" className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-            <Moon aria-hidden="true" className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+            <SunIcon aria-hidden="true" className="size-4 stroke-[1.5] opacity-100 transition-opacity dark:opacity-0" />
+            <MoonIcon aria-hidden="true" className="absolute size-4 stroke-[1.5] opacity-0 transition-opacity dark:opacity-100" />
         </Button>
     )
 }
