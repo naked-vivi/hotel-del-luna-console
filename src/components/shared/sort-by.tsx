@@ -13,7 +13,7 @@ export default function SortBy({ options }: SortByProps) {
 
     return (
         <Select value={currentSort} onValueChange={setSort}>
-            <SelectTrigger className="w-50" aria-label="Sort results">
+            <SelectTrigger className="w-64" aria-label="Sort results">
                 <SelectValue placeholder="Sort by...">
                     {selectedOption?.label}
                 </SelectValue>
