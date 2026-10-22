@@ -1,13 +1,23 @@
-import DashboardFilter from "@/features/dashboard/DashboardFilter";
-import DashboardLayout from "@/features/dashboard/DashboardLayout";
+import DashboardFilter from "@/features/dashboard/dashboard-filter";
+import DashboardLayout from "@/features/dashboard/dashboard-layout";
+import PageHeader from "@/shared/page-header";
+
+function greeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
 
 function Dashboard() {
   return (
     <div className="@container min-w-0">
-      <div className="my-6 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Dashboard</h1>
-        <DashboardFilter />
-      </div>
+      <PageHeader
+        eyebrow={greeting()}
+        title="Dashboard"
+        description="How the house is doing: bookings, revenue, tonight's arrivals and how long guests stay."
+        actions={<DashboardFilter />}
+      />
 
       <DashboardLayout />
     </div>

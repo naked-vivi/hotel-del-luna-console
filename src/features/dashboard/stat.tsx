@@ -1,37 +1,37 @@
 import type { ReactNode } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-
-const iconColors = {
-  blue: "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300",
-  green: "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-300",
-  indigo: "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300",
-  yellow: "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300",
-};
+import { Skeleton } from "@/components/ui/skeleton";
 
 type StatProps = {
   icon: ReactNode;
   title: string;
   value: string | number;
-  color: keyof typeof iconColors;
+  caption?: string;
+  /** While loading, only the value is replaced by a skeleton of the same height. */
+  isLoading?: boolean;
+  /** When the data failed to load, the value reads N/A. */
+  isError?: boolean;
 };
 
-function Stat({ icon, title, value, color }: StatProps) {
+function Stat({ icon, title, value, caption, isLoading = false, isError = false }: StatProps) {
   return (
-    <Card className="min-w-0">
-      <CardHeader className="flex flex-row items-center justify-between gap-3 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-        <div
-          aria-hidden="true"
-          className={cn("flex size-10 shrink-0 items-center justify-center rounded-full [&>svg]:size-5", iconColors[color])}
-        >
+    <div className="flex min-w-0 flex-col gap-6 bg-card p-6">
+      <div className="flex items-center justify-between gap-3">
+        <p className="pt-0.5 text-[10.5px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">{title}</p>
+        <span aria-hidden="true" className="-my-3 flex size-12 shrink-0 items-center justify-center">
           {icon}
-        </div>
-      </CardHeader>
-      <CardContent>
-        <p className="break-words text-2xl font-bold tabular-nums">{value}</p>
-      </CardContent>
-    </Card>
+        </span>
+      </div>
+      <div className="space-y-2">
+        {isLoading ? (
+          <Skeleton className="h-11 w-32 max-w-full" />
+        ) : isError ? (
+          <p className="text-[2.75rem] leading-none font-extralight text-muted-foreground" title="Could not be loaded">N/A</p>
+        ) : (
+          <p className="truncate text-[2.75rem] leading-none font-extralight tabular-nums" title={String(value)}>{value}</p>
+        )}
+        {caption && <p className="text-[13px] text-muted-foreground">{caption}</p>}
+      </div>
+    </div>
   );
 }
 
