@@ -2,12 +2,13 @@ import { getStaysAfterDate } from "@/services/api-bookings";
 import { useQuery } from "@tanstack/react-query";
 import { subDays } from "date-fns";
 import { useSearchParams } from "react-router-dom";
+import { DASHBOARD_PERIOD_PARAM } from "@/lib/constants";
+import { isConfirmedStay, parseDashboardPeriod } from "@/lib/helpers";
 
 export function useRecentStays() {
     const [searchParams] = useSearchParams();
 
-    const requestedDays = Number(searchParams.get("last") ?? 7);
-    const numDays = [7, 30, 90].includes(requestedDays) ? requestedDays : 7;
+    const numDays = parseDashboardPeriod(searchParams.get(DASHBOARD_PERIOD_PARAM));
     const queryDate = subDays(new Date(), numDays).toISOString();
 
     const { isPending, error, data: stays = [] } = useQuery({
@@ -15,7 +16,7 @@ export function useRecentStays() {
         queryKey: ["stays", `last-${numDays}`]
     })
 
-    const confirmedStays = stays?.filter((stay) => stay.status === "checked-in" || stay.status === "checked-out")
+    const confirmedStays = stays?.filter(isConfirmedStay)
 
     return { isPending, error, stays, confirmedStays }
 }

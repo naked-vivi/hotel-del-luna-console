@@ -3,15 +3,6 @@ import { updateBooking } from "@/services/api-bookings";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-interface CheckinArgs {
-    bookingId: number;
-    breakfast?: {
-        hasBreakfast: boolean;
-        extrasPrice: number;
-        totalPrice: number;
-    };
-}
-
 export function useCheckin() {
     const navigate = useNavigate();
     const queryClient = useQueryClient();

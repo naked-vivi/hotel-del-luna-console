@@ -31,19 +31,13 @@ import { toast } from "@/components/ui/toast";
 import { createCabin } from "@/services/api-cabins";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
-
-type Options = {
-    editId?: number;
-    onSuccessCallback?: () => void;
-};
-
-export function useCreateCabin(options?: Options) {
+export function useCreateCabin(options?: CreateCabinOptions) {
     const queryClient = useQueryClient();
     const { editId, onSuccessCallback } = options || {};
     const isEditSession = Boolean(editId);
 
     const { mutate: createCabinMutate, isPending: isCreating } = useMutation({
-        mutationFn: (data: any) => createCabin(data, editId),
+        mutationFn: (data: CabinFormValues) => createCabin(data, editId),
         onSuccess: () => {
             toast.add({
                 type: "success",

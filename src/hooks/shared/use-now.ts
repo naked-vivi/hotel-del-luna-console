@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { MS_PER_MINUTE } from "@/lib/constants";
 
-/** The current time, refreshed on every full minute. */
 export function useNow() {
   const [now, setNow] = useState(() => new Date());
 
@@ -8,8 +8,8 @@ export function useNow() {
     let interval: ReturnType<typeof setInterval> | undefined;
     const timeout = setTimeout(() => {
       setNow(new Date());
-      interval = setInterval(() => setNow(new Date()), 60_000);
-    }, 60_000 - (Date.now() % 60_000));
+      interval = setInterval(() => setNow(new Date()), MS_PER_MINUTE);
+    }, MS_PER_MINUTE - (Date.now() % MS_PER_MINUTE));
     return () => {
       clearTimeout(timeout);
       if (interval) clearInterval(interval);

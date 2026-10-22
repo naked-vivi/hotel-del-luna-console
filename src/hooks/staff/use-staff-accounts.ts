@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getUserAccounts } from "@/services/api-users";
-import useUser from "../authentication/use-user";
+import useUser from "@/hooks/authentication/use-user";
+import { parsePage } from "@/lib/helpers";
 
-/** The staff list for the page in the URL (?page=2). */
 export function useStaffAccounts() {
   const [searchParams] = useSearchParams();
-  const page = Math.max(1, Number(searchParams.get("page")) || 1);
+  const page = parsePage(searchParams.get("page"));
   const { user } = useUser();
 
   const { data, error, isPending, isFetching } = useQuery({
