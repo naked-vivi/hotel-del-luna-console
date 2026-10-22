@@ -1,5 +1,5 @@
 // import { toast } from "@/components/ui/toast";
-// import { createCabin } from "@/services/apiCabins";
+// import { createCabin } from "@/services/api-cabins";
 // import { useQueryClient, useMutation } from "@tanstack/react-query";
 // import { data } from "react-router-dom";
 
@@ -28,7 +28,7 @@
 // export default useCreateCabin
 
 import { toast } from "@/components/ui/toast";
-import { createCabin } from "@/services/apiCabins";
+import { createCabin } from "@/services/api-cabins";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 
