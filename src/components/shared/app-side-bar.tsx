@@ -9,8 +9,11 @@ import {
 } from "@/components/ui/sidebar"
 import { Collapsible } from "@/components/ui/collapsible"
 import Uploader from "@/components/shared/uploader"
+import { usePermissions } from "@/hooks/authentication/use-permissions"
 
 export function AppSidebar() {
+    const { can } = usePermissions()
+
     return (
         <Sidebar className="[--icon-accent:var(--sidebar-primary)]">
             <SidebarHeader className="px-6 pt-12 pb-10">
@@ -31,7 +34,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter className="gap-4 px-6 pb-8">
-                {import.meta.env.DEV && <Uploader />}
+                {import.meta.env.DEV && can("sampleData.replace") && <Uploader />}
                 <p className="text-center text-[9.5px] font-semibold uppercase tracking-[0.36em] text-primary-500">
                     Open dusk till dawn
                 </p>

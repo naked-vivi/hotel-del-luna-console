@@ -10,6 +10,7 @@ import LobbyClock from "@/components/shared/lobby-clock";
 import TonightMoon from "@/components/shared/tonight-moon";
 import FrontDeskCount from "@/components/shared/front-desk-count";
 import HeaderDivider from "@/components/shared/header-divider";
+import GlobalSearch from "@/components/shared/global-search";
 
 function Header() {
     return (
@@ -18,13 +19,14 @@ function Header() {
                 <SidebarToggle />
                 <HeaderDivider className="hidden lg:block" />
                 <div className="hidden lg:block"><LobbyClock /></div>
-                <HeaderDivider className="hidden xl:block" />
-                <div className="hidden xl:block"><TonightMoon /></div>
+                <HeaderDivider className="hidden min-[90rem]:block" />
+                <div className="hidden min-[90rem]:block"><TonightMoon /></div>
                 <HeaderDivider className="hidden 2xl:block" />
                 <div className="hidden 2xl:block"><FrontDeskCount /></div>
             </div>
 
             <div className="flex shrink-0 items-center gap-5">
+                <GlobalSearch />
                 <UserAvatar />
 
                 <div className="flex items-center divide-x divide-border border border-border">
