@@ -1,14 +1,25 @@
+import { Link } from "react-router-dom";
 import { TableCell, TableRow } from "@/components/ui/table";
 import CabinNumber from "@/components/cabins/cabin-number";
 import CabinActions from "@/components/cabins/cabin-actions";
+import CabinPhotoPlaceholder from "@/components/cabins/cabin-photo-placeholder";
+import { cabinPhotos } from "@/lib/helpers";
 
-function CabinRow({ cabin, actions }: CabinCardProps) {
+function CabinRow({ cabin, actions }: CabinRowProps) {
+  const [cover] = cabinPhotos(cabin);
+
   return (
     <TableRow>
       <TableCell className="py-5">
-        <img src={cabin.image} alt={cabin.name} className="aspect-3/2 h-14 min-w-21 object-cover" />
+        <div className="aspect-3/2 h-14 min-w-21 overflow-hidden">
+          {cover ? <img src={cover} alt={cabin.name} className="size-full object-cover" /> : <CabinPhotoPlaceholder className="[&_span]:hidden [&_svg]:size-5" />}
+        </div>
       </TableCell>
-      <TableCell><CabinNumber name={cabin.name} className="text-2xl" /></TableCell>
+      <TableCell>
+        <Link to={`/cabins/${cabin.id}`} className="transition-opacity hover:opacity-80 focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring">
+          <CabinNumber name={cabin.name} className="text-2xl" />
+        </Link>
+      </TableCell>
       <TableCell className="text-center text-muted-foreground">Up to {cabin.maxCapacity} guests</TableCell>
       <TableCell className="text-end text-lg font-light tabular-nums">
         ${cabin.regularPrice}
