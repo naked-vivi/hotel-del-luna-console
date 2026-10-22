@@ -1,5 +1,6 @@
 import supabase, { signupClient, supabaseUrl } from "./supabase";
 import { AVATAR_BUCKET } from "@/lib/constants";
+import { getUserRole } from "@/lib/helpers";
 
 export async function signup({ fullName, email, password }: SignupCredentials) {
     const { data, error } = await signupClient.auth.signUp({
@@ -10,6 +11,14 @@ export async function signup({ fullName, email, password }: SignupCredentials) {
 
     if (error) throw new Error(error.message);
     if (!data.user) throw new Error("Unable to create the user. Please try again.");
+
+    const { error: roleError } = await supabase.rpc("update_user_account", {
+        p_user_id: data.user.id,
+        p_full_name: fullName,
+        p_role: "staff",
+    });
+    if (roleError) throw new Error(`The account was created, but the staff role couldn't be set: ${roleError.message}`);
+
     return data;
 }
 
@@ -20,7 +29,12 @@ export async function login({ email, password }: LoginCredentials) {
         password
     })
     if (error)
-        throw new Error(error.message)
+        throw new Error(error.code === "invalid_credentials" ? "That email and password don't match. Check them and try again." : error.message)
+
+    if (!getUserRole(data.user)) {
+        await supabase.auth.signOut();
+        throw new Error("This console is for hotel staff. Guest accounts book on the website.");
+    }
     return data;
 }
 

@@ -1,7 +1,8 @@
 import { login as loginApi } from "@/services/api-auth"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
-import { toast } from "@/components/ui/toast"
+import { toast } from "sonner"
+import { getUserProfile } from "@/lib/helpers"
 
 function useLogin() {
     const queryClient = useQueryClient();
@@ -12,9 +13,10 @@ function useLogin() {
         onSuccess: ({ user }) => {
             queryClient.setQueryData(['user'], user);
             navigate('/dashboard', { replace: true })
+            toast.success(`Welcome back, ${getUserProfile(user).displayName}`)
         },
         onError: (err: Error) => {
-            toast.add({ type: "error", description: err.message });
+            toast.error("Couldn't log in", { description: err.message });
         }
     })
     return { login, isPending, error }

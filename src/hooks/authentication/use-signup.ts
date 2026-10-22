@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/toast";
+import { toast } from "sonner";
 import { signup as signupApi } from "@/services/api-auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -8,18 +8,14 @@ export function useSignup() {
         mutationFn: signupApi,
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ["user-accounts"] });
-            toast.add({
-                type: "success",
+            toast.success("Staff account created", {
                 description: data?.session
-                    ? "User successfully created."
-                    : "Signup request accepted. The user may need to confirm their email before signing in.",
+                    ? "They can log in now."
+                    : "They can log in once they confirm their email.",
             });
         },
         onError: (error: Error) => {
-            toast.add({
-                type: "error",
-                description: error.message || "Unable to create user. Please try again.",
-            });
+            toast.error("Couldn't create the account", { description: error.message });
         },
     });
 
