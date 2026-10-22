@@ -2,6 +2,8 @@ import { addDays, format } from "date-fns";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import EmptyState from "@/components/shared/empty-state";
 import ErrorNote from "@/components/shared/error-note";
+import VacantCabins from "@/components/cabins/vacant-cabins";
+import EmptyRegister from "@/components/bookings/empty-register";
 import RoomChartHeader from "@/components/bookings/room-chart-header";
 import RoomChartNav from "@/components/bookings/room-chart-nav";
 import RoomChartRow from "@/components/bookings/room-chart-row";
@@ -37,9 +39,9 @@ export default function RoomChart() {
       </div>
 
       {failure ? (
-        <div className="flex min-h-96 flex-col px-6"><ErrorNote message={failure.message} /></div>
+        <div className="flex min-h-96 flex-col px-6"><ErrorNote title="The chart is in the fog" message={failure.message} drawing={<EmptyRegister clouded className="w-full max-w-64" />} /></div>
       ) : !isLoading && rows.length === 0 ? (
-        <div className="p-6"><EmptyState title="No cabins yet">Add cabins to see their stays on the chart.</EmptyState></div>
+        <div className="p-6"><EmptyState drawing={<VacantCabins className="w-full max-w-56" />} title="No cabins yet">Add cabins to see their stays on the chart.</EmptyState></div>
       ) : (
         <div className="custom-scrollbar overflow-x-auto">
           <div className="min-w-232">

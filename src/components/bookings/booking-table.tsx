@@ -3,6 +3,9 @@ import { Table, TableBody } from "@/components/ui/table";
 import { PaginationPage } from "@/components/shared/pagination-page";
 import ConfirmDelete from "@/components/shared/confirm-delete";
 import EmptyState from "@/components/shared/empty-state";
+import ErrorNote from "@/components/shared/error-note";
+import ErrorPanel from "@/components/shared/error-panel";
+import EmptyRegister from "@/components/bookings/empty-register";
 import BookingTableHeader from "@/components/bookings/booking-table-header";
 import BookingTableSkeleton from "@/components/bookings/booking-table-skeleton";
 import BookingRow from "@/components/bookings/booking-row";
@@ -13,13 +16,22 @@ import { BOOKINGS_PAGE_SIZE } from "@/lib/constants";
 
 export default function BookingTable() {
   const [deletingBookingId, setDeletingBookingId] = useState<number | null>(null);
-  const { bookings, isPending, error, count, page } = useBookings();
+  const { bookings, isPending, error, count, page, bookingId } = useBookings();
   const { checkOut, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeletingBooking } = useDeleteBooking();
 
   if (isPending) return <BookingTableSkeleton />;
-  if (error) return <p role="alert">{error.message}</p>;
-  if (bookings.length === 0) return <EmptyState title="No bookings here">Try another status filter, or check back once new guests reserve.</EmptyState>;
+  if (error) {
+    return (
+      <ErrorPanel>
+        <ErrorNote title="The register is out of reach" message={error.message} drawing={<EmptyRegister clouded className="w-full max-w-64" />} />
+      </ErrorPanel>
+    );
+  }
+  if (bookings.length === 0 && bookingId !== null) {
+    return <EmptyState drawing={<EmptyRegister className="w-full max-w-56" />} title={bookingId > 0 ? `No booking #${bookingId}` : "That isn't a booking number"}>Check the number, or clear the search to see every booking.</EmptyState>;
+  }
+  if (bookings.length === 0) return <EmptyState drawing={<EmptyRegister className="w-full max-w-56" />} title="No bookings here">Try another status filter, or check back once new guests reserve.</EmptyState>;
 
   function handleConfirmDelete() {
     deleteBooking(deletingBookingId, { onSuccess: () => setDeletingBookingId(null) });
