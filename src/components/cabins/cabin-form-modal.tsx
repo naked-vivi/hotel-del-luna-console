@@ -4,14 +4,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import CreateCabinForm from "./create-cabin-form"
-import type { ComponentProps } from "react"
-
-interface CabinFormModalProps {
-    isOpen: boolean
-    onClose: () => void
-    cabinToEdit?: ComponentProps<typeof CreateCabinForm>["cabinToEdit"] | null
-}
+import CreateCabinForm from "@/components/cabins/create-cabin-form"
 
 export default function CabinFormModal({
     isOpen,
@@ -23,7 +16,7 @@ export default function CabinFormModal({
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogContent className="max-h-[90dvh] min-w-0 overflow-y-auto sm:max-w-150">
-                <DialogHeader className="min-w-0 break-words pr-6">
+                <DialogHeader className="min-w-0 wrap-break-word pr-6">
                     <DialogTitle>
                         {isEditSession ? `Edit ${cabinToEdit?.name}` : "Add New Cabin"}
                     </DialogTitle>

@@ -1,5 +1,5 @@
 
-// import CreateCabinForm from "./create-cabin-form"
+// import CreateCabinForm from "@/components/cabins/create-cabin-form"
 import { useState } from "react";
 // import {
 //     Dialog,
@@ -9,7 +9,7 @@ import { useState } from "react";
 //     DialogTrigger,
 // } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import CabinFormModal from "./cabin-form-modal";
+import CabinFormModal from "@/components/cabins/cabin-form-modal";
 
 function AddCabin() {
     const [isOpen, setIsOpen] = useState(false);
