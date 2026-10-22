@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import useCreateCabin from "./useCreateCabin"
+import useCreateCabin from "./use-create-cabin"
 
 const cabinSchema = z
   .object({

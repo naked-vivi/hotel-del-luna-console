@@ -1,4 +1,4 @@
-import { getStaysTodayActivity } from "@/services/apiBookings"
+import { getStaysTodayActivity } from "@/services/api-bookings"
 import { useQuery } from "@tanstack/react-query"
 
 

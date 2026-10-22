@@ -1,4 +1,4 @@
-import { login as loginApi } from "@/services/apiAuth"
+import { login as loginApi } from "@/services/api-auth"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { toast } from "@/components/ui/toast"

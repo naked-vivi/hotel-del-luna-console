@@ -4,7 +4,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import CreateCabinForm from "./CreateCabinForm"
+import CreateCabinForm from "./create-cabin-form"
 import type { ComponentProps } from "react"
 
 interface CabinFormModalProps {

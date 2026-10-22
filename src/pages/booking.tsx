@@ -1,4 +1,4 @@
-import BookingDetail from "@/features/bookings/BookingDetail"
+import BookingDetail from "@/features/bookings/booking-detail"
 
 
 function Booking() {

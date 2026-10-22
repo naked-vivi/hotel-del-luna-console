@@ -1,4 +1,4 @@
-import { getBookingsAfterDate } from "@/services/apiBookings";
+import { getBookingsAfterDate } from "@/services/api-bookings";
 import { useQuery } from "@tanstack/react-query";
 import { subDays } from "date-fns";
 import { useSearchParams } from "react-router-dom";

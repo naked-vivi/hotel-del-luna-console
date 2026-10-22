@@ -1,5 +1,5 @@
 import { toast } from "@/components/ui/toast";
-import { updateCurrentUser } from "@/services/apiAuth";
+import { updateCurrentUser } from "@/services/api-auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateUser() {

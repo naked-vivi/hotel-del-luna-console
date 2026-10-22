@@ -1,5 +1,5 @@
-import { getBookings } from "@/services/apiBookings";
-import type { FilterOption, SortOption } from "@/services/apiBookings";
+import { getBookings } from "@/services/api-bookings";
+import type { FilterOption, SortOption } from "@/services/api-bookings";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 

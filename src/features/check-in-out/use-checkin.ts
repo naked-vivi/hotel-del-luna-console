@@ -1,5 +1,5 @@
 import { toast } from "@/components/ui/toast";
-import { updateBooking } from "@/services/apiBookings";
+import { updateBooking } from "@/services/api-bookings";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
