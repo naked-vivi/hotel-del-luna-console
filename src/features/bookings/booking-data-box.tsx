@@ -1,38 +1,42 @@
+import type { ReactNode } from "react";
 import { format, isToday } from "date-fns";
-import {
-  Building2,
-  CheckCircle2,
-  DollarSign,
-  MessageSquare,
-} from "lucide-react";
 
 import { formatDistanceFromNow, formatCurrency } from "../../lib/utils";
 
-// Helper sub-component replacing custom DataItem
-function DataItem({
-  icon,
-  label,
-  children,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  children: React.ReactNode;
-}) {
+/** One label/value pair in the guest grid. */
+function Detail({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex items-center gap-3 py-2 text-sm text-foreground">
-      <span className="flex items-center text-primary [&>svg]:h-5 [&>svg]:w-5">
-        {icon}
-      </span>
-      <span className="font-medium text-muted-foreground">{label}:</span>
-      <span className="font-medium">{children}</span>
+    <div className="min-w-0 space-y-2 bg-card p-5">
+      <dt className="text-[10px] font-semibold uppercase tracking-[0.26em] text-muted-foreground">{label}</dt>
+      <dd className="wrap-break-word text-[15px] text-foreground">{children}</dd>
+    </div>
+  );
+}
+
+/** Arrival or departure date, set large. */
+function StayDate({ label, date, note }: { label: string; date: string; note?: string }) {
+  const d = new Date(date);
+  return (
+    <div className="min-w-0 space-y-2">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-muted-foreground">{label}</p>
+      <p className="flex items-baseline gap-3">
+        <span className="text-5xl leading-none font-extralight tabular-nums">{format(d, "dd")}</span>
+        <span className="text-sm uppercase tracking-[0.18em] text-foreground">{format(d, "MMM yyyy")}</span>
+      </p>
+      <p className="text-[13px] text-muted-foreground">
+        {format(d, "EEEE")}
+        {note ? ` · ${note}` : ""}
+      </p>
     </div>
   );
 }
 
 interface BookingDataBoxProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   booking: any; // Replace with your Booking interface if available
 }
 
+/** The booking laid out like a printed reservation: suite and dates, guest, then the bill. */
 export function BookingDataBox({ booking }: BookingDataBoxProps) {
   const {
     created_at,
@@ -51,84 +55,75 @@ export function BookingDataBox({ booking }: BookingDataBoxProps) {
   } = booking;
   const { fullName: guestName, email, nationality, countryFlag, nationalID } = guests ?? {};
   const cabinName = cabins?.name ?? "Unknown";
+  const arrivalNote = isToday(new Date(startDate)) ? "Today" : formatDistanceFromNow(startDate);
 
   return (
-    <section className="overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm">
-      {/* Header */}
-      <header className="flex flex-wrap items-center justify-between gap-4 bg-primary px-8 py-5 text-primary-foreground">
-        <div className="flex items-center gap-4 text-lg font-semibold">
-          <Building2 className="h-8 w-8" />
-          <p>
-            {numNights} nights in Cabin <span className="font-mono text-xl">{cabinName}</span>
+    <section className="border border-border bg-card text-card-foreground">
+      {/* Suite and dates */}
+      <header className="grid gap-8 border-b border-border p-6 sm:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
+        <div className="min-w-0 space-y-2">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-gold">Cabin</p>
+          <p className="text-5xl leading-none font-extralight">
+            <span className="mr-2 align-middle text-xs font-semibold tracking-[0.14em] text-muted-foreground">N°</span>
+            {cabinName}
+          </p>
+          <p className="text-[13px] text-muted-foreground">
+            {numNights} {numNights === 1 ? "night" : "nights"} · {numGuests} {numGuests === 1 ? "guest" : "guests"}
           </p>
         </div>
-
-        <p className="text-sm font-medium opacity-90 sm:text-base">
-          {format(new Date(startDate), "EEE, MMM dd yyyy")} (
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}
-          ) &mdash; {format(new Date(endDate), "EEE, MMM dd yyyy")}
-        </p>
+        <StayDate label="Arrival" date={startDate} note={arrivalNote} />
+        <StayDate label="Departure" date={endDate} />
       </header>
 
-      {/* Main Body */}
-      <section className="px-8 pb-3 pt-8">
-        {/* Guest Info Bar */}
-        <div className="mb-6 flex flex-wrap items-center gap-3 text-sm font-medium text-muted-foreground">
+      {/* Guest */}
+      <div className="space-y-5 p-6 sm:p-8">
+        <div className="flex flex-wrap items-center gap-3">
           {countryFlag && (
-            <img
-              src={countryFlag}
-              alt={`Flag of ${nationality}`}
-              className="h-4 w-6 rounded-xs border object-cover"
-            />
+            <img src={countryFlag} alt={`Flag of ${nationality}`} className="h-4 w-6 border border-border object-cover" />
           )}
-          <p className="font-medium text-foreground">
-            {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ""}
+          <p className="text-2xl font-light">
+            {guestName}
+            {numGuests > 1 && <span className="ml-2 text-base text-muted-foreground">+ {numGuests - 1} {numGuests - 1 === 1 ? "guest" : "guests"}</span>}
           </p>
-          <span className="text-muted-foreground/50">&bull;</span>
-          <p>{email}</p>
-          <span className="text-muted-foreground/50">&bull;</span>
-          <p>National ID {nationalID}</p>
         </div>
 
-        {/* Observations */}
+        <dl className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+          <Detail label="Email">{email ?? "—"}</Detail>
+          <Detail label="Nationality">{nationality ?? "—"}</Detail>
+          <Detail label="National ID">{nationalID ?? "—"}</Detail>
+          <Detail label="Breakfast">{hasBreakfast ? "Included" : "Not included"}</Detail>
+        </dl>
+
         {observations && (
-          <DataItem icon={<MessageSquare />} label="Observations">
-            {observations}
-          </DataItem>
+          <div className="space-y-2 border-t border-border pt-5">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-muted-foreground">Guest notes</p>
+            <p className="max-w-[70ch] text-lg leading-relaxed font-light italic text-foreground">“{observations}”</p>
+          </div>
         )}
+      </div>
 
-        {/* Breakfast Status */}
-        <DataItem icon={<CheckCircle2 />} label="Breakfast included?">
-          {hasBreakfast ? "Yes" : "No"}
-        </DataItem>
-
-        {/* Price Card */}
-        <div
-          className={`mt-6 flex items-center justify-between rounded-md px-8 py-4 ${
-            isPaid
-              ? "bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
-              : "bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
+      {/* The bill */}
+      <div className="flex flex-col gap-6 border-t border-border p-6 sm:flex-row sm:items-end sm:justify-between sm:p-8">
+        <div className="space-y-2">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-muted-foreground">Total</p>
+          <p className="text-5xl leading-none font-extralight tabular-nums">{formatCurrency(totalPrice)}</p>
+          {hasBreakfast && (
+            <p className="text-[13px] text-muted-foreground">
+              {formatCurrency(cabinPrice)} cabin + {formatCurrency(extrasPrice)} breakfast
+            </p>
+          )}
+        </div>
+        <span
+          className={`self-start border border-current/25 px-3 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-[0.22em] sm:self-auto ${
+            isPaid ? "bg-status-success-bg text-status-success" : "bg-status-warning-bg text-status-warning"
           }`}
         >
-          <DataItem icon={<DollarSign />} label="Total price">
-            {formatCurrency(totalPrice)}
-            {hasBreakfast &&
-              ` (${formatCurrency(cabinPrice)} cabin + ${formatCurrency(
-                extrasPrice
-              )} breakfast)`}
-          </DataItem>
+          {isPaid ? "Paid" : "Will pay at property"}
+        </span>
+      </div>
 
-          <p className="text-xs font-semibold uppercase tracking-wider">
-            {isPaid ? "Paid" : "Will pay at property"}
-          </p>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="px-8 py-4 text-right text-xs text-muted-foreground">
-        <p>Booked {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
+      <footer className="border-t border-border px-6 py-4 text-right text-xs text-muted-foreground sm:px-8">
+        Booked {format(new Date(created_at), "EEEE d MMMM yyyy, HH:mm")}
       </footer>
     </section>
   );

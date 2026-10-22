@@ -1,20 +1,17 @@
-import BookingDataBox from "./BookingDataBox";
-import Spinner from "@/shared/Spinner";
-import useBooking from "./useBooking";
+import BookingDataBox from "./booking-data-box";
+import { Skeleton } from "@/components/ui/skeleton";
+import BookingDataBoxSkeleton from "./booking-data-box-skeleton";
+import useBooking from "./use-booking";
 import { Button } from "@/components/ui/button";
-import { useMoveBack } from "../../hooks/useMoveBack";
-import { Link, useNavigate } from "react-router-dom";
-import { useCheckout } from "../check-in-out/useCheckout";
-import { useDeleteBooking } from "./useDeleteBooking";
-import ConfirmDelete from "@/shared/confirmDelete";
+import { useMoveBack } from "../../hooks/use-move-back";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useCheckout } from "../check-in-out/use-checkout";
+import { useDeleteBooking } from "./use-delete-booking";
+import ConfirmDelete from "@/shared/confirm-delete";
 import { useState } from "react";
+import PageHeader from "@/shared/page-header";
+import StatusTag from "@/shared/status-tag";
 
-// Map booking status to badge colors.
-const statusToBadgeStyle: Record<string, string> = {
-  unconfirmed: "bg-blue-100 text-blue-800 hover:bg-blue-100 dark:bg-blue-900/40 dark:text-blue-300",
-  "checked-in": "bg-emerald-100 text-emerald-800 hover:bg-emerald-100 dark:bg-emerald-900/40 dark:text-emerald-300",
-  "checked-out": "bg-slate-100 text-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300",
-};
 
 function BookingDetail() {
   const [deletingBookingId, setDeletingBookingId] = useState<number | null>(null);
@@ -24,14 +21,27 @@ function BookingDetail() {
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
+  const { bookingId } = useParams();
 
-  if (isPending) return <Spinner />;
+  if (isPending) {
+    return (
+      <div className="flex flex-col gap-8">
+        <PageHeader
+          eyebrow="Reservation"
+          title={`Booking #${bookingId}`}
+          meta={<Skeleton className="h-6 w-28" />}
+          actions={<Button variant="ghost" onClick={moveBack} className="text-muted-foreground hover:text-foreground">&larr; Back</Button>}
+        />
+        <BookingDataBoxSkeleton />
+      </div>
+    );
+  }
 
   if (error || !booking) {
     return (
       <div className="flex flex-col items-start gap-4">
         <p role="alert">{error?.message || "Booking not found"}</p>
-        <Button variant="secondary" onClick={moveBack}>Back</Button>
+        <Button variant="outline" onClick={moveBack}>Back</Button>
       </div>
     );
   }
@@ -39,46 +49,41 @@ function BookingDetail() {
   const { id, status } = booking;
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Top Navigation / Header Row */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            Booking #{id}
-          </h1>
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${statusToBadgeStyle[status] || "bg-muted text-muted-foreground"}`}>
-            {status.replace("-", " ")}
-          </span>
-        </div>
-
-        <Button variant="ghost" onClick={moveBack} className="text-muted-foreground hover:text-foreground">
-          &larr; Back
-        </Button>
-      </div>
+    <div className="flex flex-col gap-8">
+      <PageHeader
+        eyebrow="Reservation"
+        title={`Booking #${id}`}
+        meta={<StatusTag status={status} />}
+        actions={
+          <Button variant="ghost" onClick={moveBack} className="text-muted-foreground hover:text-foreground">
+            &larr; Back
+          </Button>
+        }
+      />
 
       {/* Main Booking Content */}
       <BookingDataBox booking={booking} />
 
       {/* Action Buttons */}
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex flex-wrap items-center justify-end gap-3 border-t border-border pt-8">
         {booking.status === "unconfirmed" && (
-          <Button className="cursor-pointer" render={<Link to={`/checkin/${booking.id}`} />} nativeButton={false}>
+          <Button render={<Link to={`/checkin/${booking.id}`} />} nativeButton={false}>
             Check-in
           </Button>
         )}
         {booking.status === "checked-in" && (
-          <Button className="cursor-pointer"
+          <Button
             onClick={() => checkOut(booking.id)}
             disabled={isCheckingOut}>
             Check-out
           </Button>
         )}
-        <Button variant="destructive" className="cursor-pointer"
+        <Button variant="destructive"
           onClick={() => setDeletingBookingId(booking.id)}
           disabled={isDeletingBooking}>
           Delete Booking
         </Button>
-        <Button variant="secondary" onClick={moveBack}>
+        <Button variant="outline" onClick={moveBack}>
           Back
         </Button>
 
