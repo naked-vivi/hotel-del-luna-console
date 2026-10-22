@@ -1,5 +1,5 @@
 {
-  "name": "the-wild-oasis",
+  "name": "hotel-del-luna",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
-    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/josefin-sans": "^5.3.0",
     "@hookform/resolvers": "^5.9.1",
     "@supabase/supabase-js": "^2.112.4",
     "@tailwindcss/vite": "^4.3.3",
@@ -22,7 +22,6 @@
     "clsx": "^2.1.1",
     "cn": "^0.2.6",
     "date-fns": "^4.4.0",
-    "lucide-react": "^1.38.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-error-boundary": "^6.1.4",
