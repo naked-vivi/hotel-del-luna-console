@@ -1,20 +1,8 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import CheckoutButton from "./checkout-button";
-
-type TodayItemProps = {
-  activity: {
-    id: number;
-    status: string;
-    numNights: number;
-    guests: {
-      fullName: string;
-      nationality: string | null;
-      countryFlag: string | null;
-    } | null;
-  };
-};
+import CheckoutButton from "@/components/check-in-out/checkout-button";
+import { pluralize } from "@/lib/helpers";
 
 function TodayItem({ activity }: TodayItemProps) {
   const { id, guests, status, numNights } = activity;
@@ -40,7 +28,7 @@ function TodayItem({ activity }: TodayItemProps) {
         </span>
         <span className="wrap-break-word text-[15px] font-normal" title={guests?.fullName}>{guests?.fullName ?? "Unknown guest"}</span>
       </div>
-      <span className="whitespace-nowrap tabular-nums text-muted-foreground @min-[30rem]/activity:text-right">{numNights} {numNights === 1 ? "night" : "nights"}</span>
+      <span className="whitespace-nowrap tabular-nums text-muted-foreground @min-[30rem]/activity:text-right">{pluralize(numNights, "night")}</span>
       <div className="flex justify-end [&>button]:w-full [&>a]:w-full">
       {isArrival && (
         <Button size="sm" render={<Link to={`/checkin/${id}`} />}>Check in</Button>

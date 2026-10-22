@@ -1,27 +1,13 @@
 import { format } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import useTodayActivity from "./use-today-activity";
-import TodayItem from "./today-item";
-import KeyRack from "./key-rack";
-import ErrorNote from "@/shared/error-note";
-import CardSkeleton from "@/shared/card-skeleton";
-import { TODAY_CARD } from "../dashboard/card-sizes";
+import useTodayActivity from "@/hooks/check-in-out/use-today-activity";
+import TodayItem from "@/components/check-in-out/today-item";
+import QuietNight from "@/components/check-in-out/quiet-night";
+import ErrorNote from "@/components/shared/error-note";
+import CardSkeleton from "@/components/shared/card-skeleton";
+import { TODAY_CARD } from "@/lib/constants";
 
-/** Empty state: every key is still on the rack, so nobody is coming or going. */
-function QuietNight() {
-  return (
-    <div className="my-auto flex flex-col items-center gap-7 py-6 text-center">
-      <KeyRack className="w-full max-w-72" />
-      <div className="space-y-2">
-        <p className="text-xl font-extralight text-foreground">All keys are on their hooks</p>
-        <p className="text-sm text-muted-foreground">No arrivals or departures today.</p>
-      </div>
-    </div>
-  );
-}
-
-/** `isLoading` lets the dashboard keep this card as a skeleton until every card is ready. */
-function TodayActivity({ isLoading = false }: { isLoading?: boolean }) {
+function TodayActivity({ isLoading = false }: TodayActivityProps) {
   const { isPending, activities, error } = useTodayActivity();
 
   if (isPending || isLoading) return <CardSkeleton className={TODAY_CARD} label="Loading tonight's arrivals and departures" />;
