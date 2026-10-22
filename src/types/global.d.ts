@@ -21,10 +21,90 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
+type LockedNavItemProps = {
+  label: string;
+  icon: IconComponent;
+};
+
+type Country = {
+  code: string;
+  name: string;
+  numeric: string;
+};
+
+type SearchType = "page" | "booking" | "cabin" | "guest" | "staff";
+
+type SearchResult = {
+  id: string;
+  type: SearchType;
+  title: string;
+  subtitle: string;
+  to: string;
+  flag?: string | null;
+};
+
+type SearchBookingRow = {
+  id: number;
+  startDate: string;
+  endDate: string;
+  guests: { fullName: string; countryFlag: string | null } | null;
+  cabins: { name: string } | null;
+};
+
+type SearchTypeMeta = {
+  value: SearchType;
+  label: string;
+  icon: IconComponent;
+  permission?: Permission;
+};
+
+type SearchPage = {
+  label: string;
+  to: string;
+  keywords: string;
+  permission?: Permission;
+};
+
+type SearchResultItemProps = {
+  result: SearchResult;
+  onSelect: (result: SearchResult) => void;
+};
+
+type SearchEmptyNoteProps = {
+  title: string;
+  message: string;
+  drawing?: ReactNode;
+};
+
+type SearchPrompt = { title: string; message: string };
+
+type SearchTypeChipsProps = {
+  value: SearchType | "all";
+  onChange: (value: SearchType | "all") => void;
+};
+
+type FormSectionProps = {
+  eyebrow: string;
+  title: string;
+  required?: boolean;
+  description?: string;
+  children: ReactNode;
+};
+
+type SearchInputProps = ClassNameProps & {
+  param: string;
+  label: string;
+  placeholder: string;
+  inputMode?: "text" | "numeric" | "search";
+};
+
+type PermissionRouteProps = { permission: Permission };
+
 type NavLinkItem = {
   to: string;
   label: string;
   icon: IconComponent;
+  permission?: Permission;
 };
 
 type FilterTabOption = {
@@ -67,6 +147,7 @@ type PageHeaderProps = {
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
+  toolbar?: ReactNode;
   meta?: ReactNode;
 };
 
@@ -79,24 +160,29 @@ type EmptyStateProps = {
   title: string;
   children?: ReactNode;
   action?: ReactNode;
+  drawing?: ReactNode;
 };
 
 type ErrorNoteProps = {
   title?: string;
   message?: string;
+  drawing?: ReactNode;
+};
+
+type DrawingProps = ClassNameProps & { clouded?: boolean };
+
+type ErrorPanelProps = { children: ReactNode };
+
+type FogCloudProps = {
+  x: number;
+  y: number;
+  scale?: number;
 };
 
 type CardEmptyStateProps = {
   drawing: ReactNode;
   title: string;
   message: string;
-};
-
-type LoadErrorProps = { message: string };
-
-type ErrorFallbackProps = {
-  error: Error;
-  resetErrorBoundary: () => void;
 };
 
 type CardSkeletonProps = ClassNameProps & { label?: string };
@@ -143,6 +229,8 @@ type FrontDeskFigureProps = {
 type PasswordInputProps = Omit<import("react").ComponentProps<"input">, "type">;
 
 type DashboardBoxProps = import("react").ComponentProps<"div">;
+
+type SampleDataScope = "all" | "bookings";
 
 type SampleDataButtonProps = {
   icon: IconComponent;

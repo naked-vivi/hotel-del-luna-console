@@ -1,5 +1,35 @@
 type StaffRole = "admin" | "staff";
 
+type Permission =
+  | "cabins.manage"
+  | "bookings.delete"
+  | "guests.delete"
+  | "settings.update"
+  | "settings.website"
+  | "staff.view"
+  | "staff.manage"
+  | "sampleData.replace"
+  | "account.credentials";
+
+type AccessLock = "admin" | "demo" | null;
+
+type AccessTagProps = ClassNameProps & { reason: Exclude<AccessLock, null> };
+
+type DemoAccount = {
+  role: StaffRole;
+  email: string;
+  password: string;
+  name: string;
+  title: string;
+};
+
+type DemoAccountButtonProps = {
+  account: DemoAccount;
+  isLoading: boolean;
+  disabled: boolean;
+  onSelect: (account: DemoAccount) => void;
+};
+
 type UserAccount = {
   id: string;
   fullName: string;
@@ -15,6 +45,12 @@ type UserAccountsPage = {
   users: UserAccount[];
   count: number;
   page: number;
+};
+
+type UserAccountsQuery = {
+  page: number;
+  search: string;
+  role: StaffRole | null;
 };
 
 type UpdateUserAccountArgs = {

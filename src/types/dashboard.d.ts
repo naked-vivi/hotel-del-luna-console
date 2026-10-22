@@ -53,3 +53,89 @@ type SalesTooltipRowProps = {
   value: unknown;
   name: unknown;
 };
+
+type WorldShape = {
+  id: string;
+  name: string;
+  d: string;
+};
+
+type CountryCount = {
+  code: string | null;
+  numeric: string | null;
+  name: string;
+  flag: string | null;
+  count: number;
+  share: number;
+};
+
+type CountryStay = {
+  guests: { nationality: string | null; countryFlag: string | null } | null;
+};
+
+type GuestCountriesProps = {
+  stays: readonly CountryStay[];
+  error?: Error | null;
+};
+
+type WorldMapProps = { countries: CountryCount[] };
+
+type MapHover = {
+  name: string;
+  flag: string | null;
+  count: number;
+};
+
+type MapPointer = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+type MapTooltipProps = { hover: MapHover; pointer: MapPointer };
+
+type CountryRowProps = { country: CountryCount };
+
+type CabinRevenueBooking = {
+  totalPrice: number | null;
+  cabins: { name: string } | null;
+};
+
+type RevenueByCabinProps = {
+  bookings: readonly CabinRevenueBooking[];
+  cabins: readonly Pick<Cabin, "name">[];
+  error?: Error | null;
+};
+
+type CabinRevenueBar = {
+  name: string;
+  label: string;
+  revenue: number;
+  share: number;
+};
+
+type CabinRevenueChartProps = {
+  bars: CabinRevenueBar[];
+  average: number;
+};
+
+type CabinTickProps = {
+  x?: number | string;
+  y?: number | string;
+  payload?: { value?: string | number };
+  activeName: string;
+};
+
+type CabinRevenueTooltipProps = {
+  active?: boolean;
+  payload?: readonly { payload?: CabinRevenueBar }[];
+  average: number;
+};
+
+type RecentBooking = {
+  created_at: string;
+  totalPrice: number | null;
+  extrasPrice: number | null;
+  cabins: { name: string } | null;
+};
