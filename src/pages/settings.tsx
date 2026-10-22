@@ -10,7 +10,7 @@ function Settings() {
       <PageHeader
         eyebrow="House rules"
         title="Hotel settings"
-        description="Booking limits and the breakfast rate. Changes apply to new bookings as soon as you save."
+        description="Stays, arrival times, breakfast and website bookings. Changes apply to new bookings as soon as you save."
       />
       <UpdateSettingsForm />
     </>

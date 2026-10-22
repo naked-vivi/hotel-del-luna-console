@@ -1,17 +1,20 @@
 import useSettings from "@/hooks/settings/use-settings";
 import SettingsForm from "@/components/settings/settings-form";
 import SettingsFormSkeleton from "@/components/settings/settings-form-skeleton";
-import { settingsFormValues } from "@/lib/helpers";
+import ErrorNote from "@/components/shared/error-note";
+import ErrorPanel from "@/components/shared/error-panel";
 
 export default function UpdateSettingsForm() {
   const { isPending, settings, error } = useSettings();
 
   if (isPending) return <SettingsFormSkeleton />;
-  if (error || !settings) return <p role="alert">{error?.message || "Settings could not be loaded."}</p>;
+  if (error || !settings) {
+    return (
+      <ErrorPanel>
+        <ErrorNote title="The house rules are in the fog" message={error?.message || "Settings could not be loaded."} />
+      </ErrorPanel>
+    );
+  }
 
-  return (
-    <div className="max-w-4xl">
-      <SettingsForm initialValues={settingsFormValues(settings)} />
-    </div>
-  );
+  return <SettingsForm key={settings.updatedAt ?? settings.id} settings={settings} />;
 }

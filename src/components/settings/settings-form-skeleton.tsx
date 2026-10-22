@@ -1,25 +1,35 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { SETTINGS_FIELDS } from "@/lib/constants";
+import { SETTINGS_SKELETON_SECTIONS } from "@/lib/constants";
 
 function SettingsFormSkeleton() {
   return (
-    <div className="max-w-4xl" aria-busy="true" aria-label="Loading settings">
-      <div className="border border-border bg-card">
-        <div className="divide-y divide-border">
-          {SETTINGS_FIELDS.map(({ name }) => (
-            <div key={name} className="grid gap-3 px-6 py-7 sm:grid-cols-[minmax(0,1fr)_14rem] sm:items-start sm:gap-10 sm:px-10">
-              <div className="space-y-2">
-                <div className="pt-0.5 text-[10.5px]"><Skeleton className="h-lh w-40" /></div>
-                <div className="text-sm"><Skeleton className="h-lh w-64 max-w-full" /></div>
-              </div>
-              <Skeleton className="h-12" />
+    <div aria-busy="true" aria-label="Loading settings" className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_22rem] xl:items-start">
+      <div className="min-w-0 space-y-6">
+        {SETTINGS_SKELETON_SECTIONS.map((rows, section) => (
+          <div key={section} className="border border-border bg-card">
+            <div className="space-y-3 border-b border-border px-6 py-5 sm:px-8">
+              <Skeleton className="h-3 w-20" />
+              <Skeleton className="h-6 w-56" />
+              <Skeleton className="h-4 w-80 max-w-full" />
             </div>
-          ))}
-        </div>
-        <div className="flex flex-wrap justify-end gap-3 border-t border-border px-6 py-6 sm:px-10">
-          <Skeleton className="h-10 w-36" />
-          <Skeleton className="h-10 w-32" />
-        </div>
+            <div className="divide-y divide-border p-6 sm:px-8">
+              {Array.from({ length: rows }, (_, row) => (
+                <div key={row} className="grid gap-3 py-6 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_16rem] sm:gap-10">
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-40" />
+                    <Skeleton className="h-4 w-64 max-w-full" />
+                  </div>
+                  <Skeleton className="h-12" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="space-y-4 border border-border bg-card p-6">
+        <Skeleton className="mx-auto size-6" />
+        <Skeleton className="mx-auto h-6 w-40" />
+        {SETTINGS_SKELETON_SECTIONS.flatMap((rows, section) => Array.from({ length: rows }, (_, row) => <Skeleton key={`${section}-${row}`} className="h-10" />)).slice(0, 6)}
       </div>
     </div>
   );

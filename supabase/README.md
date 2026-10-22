@@ -1,3 +1,78 @@
+# Roles, demo accounts and cabin details
+
+Run once, after the Staff page setup below.
+
+1. **Turn on pg_cron:** Database → Extensions → search `pg_cron` → enable.
+2. **Create the two demo users:** Authentication → Users → Add user → Create new user.
+   Tick **Auto Confirm User** for both.
+   - `admin@hoteldelluna.com` · password `Demo1234$` (Admin, Viviana)
+   - `staff@hoteldelluna.com` · password `Demo1234$` (Staff, Bubu)
+3. **Reload the sample data:** run the app, then sidebar → Sample data → Everything.
+   This becomes the demo baseline.
+4. **Run the script:** SQL Editor → New query → paste and run
+   `migrations/202610220002_roles_demo_and_cabin_details.sql`.
+
+What it does:
+
+- Every existing email-and-password account becomes `staff` unless it is already
+  `admin`. Google sign-ins from the website stay customers with no role.
+- Database rules: only staff and admins can see guests and bookings. Only admins
+  add, edit or delete cabins, delete bookings or guests, and change settings.
+  Customers can see their own guest record and their own bookings.
+- Marks the two demo users. Demo accounts can't change their email or password,
+  can't edit or delete staff, and see other people's emails masked.
+- Adds photos, amenities, bed type and size to cabins, and fills them in for the
+  sample cabins. Adds `source` to bookings (`front-desk` or `website`) and
+  `userId` to guests.
+- Staff list search by name or email, and a role filter. Customers never appear in it.
+- Saves today's data as the demo baseline and resets to it every day at 00:05 UTC,
+  with booking dates moved forward. Website reservations and website guests are kept.
+
+To keep changes you make on purpose (for example new cabin photos), save them as
+the new baseline in the SQL Editor:
+
+```sql
+select public.save_demo_snapshot();
+```
+
+## House rules: arrival times and website bookings
+
+Run once, after the script above. SQL Editor → New query → paste and run
+`migrations/202610230001_more_house_rules.sql`.
+
+What it does:
+
+- Adds check-in and check-out times, an on/off switch for website bookings and a
+  booking window (how many days ahead guests can book online) to `settings`.
+- `create_reservation` refuses website bookings while the switch is off, and
+  arrivals further ahead than the booking window.
+- Demo accounts can't change the website switch or the booking window.
+- Records when the settings were last saved, keeps the new rules in the daily demo
+  reset, and saves today's data as the demo baseline.
+
+## For the website (Next.js)
+
+The website shares this database. Customers sign in with Google first.
+
+- Read `cabins` and `settings` directly. Anyone can read them.
+- Booked dates for a cabin, without guest details:
+  `supabase.rpc("get_cabin_availability", { p_cabin_id, p_from, p_to })`
+  returns `{ start_date, end_date }[]`.
+- Make a reservation (signed in):
+  `supabase.rpc("create_reservation", { p_cabin_id, p_start_date, p_end_date, p_num_guests,
+  p_has_breakfast, p_observations, p_nationality, p_country_code, p_national_id })`
+  returns the new booking id. The database checks the dates are free and within
+  the stay limits, works out the price, links the guest to the signed-in customer,
+  and saves it as unconfirmed and unpaid with `source = 'website'`.
+  Taken dates fail with error code `DL409`.
+- A customer's own bookings: `supabase.from("bookings").select("*, cabins(*)")`
+  returns only theirs.
+- Customers can't insert or edit bookings directly, so prices can't be changed
+  from the browser.
+
+---
+
+
 # Staff page setup
 
 The Staff page lists every account in a table. Administrators can view details,

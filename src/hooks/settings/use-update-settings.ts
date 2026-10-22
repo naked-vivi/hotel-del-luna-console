@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/toast";
+import { toast } from "sonner";
 import { updateSetting as updateSettingsApi } from "@/services/api-settings";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
@@ -8,20 +8,11 @@ export function useUpdateSettings() {
     const { mutate: updateSettings, isPending: isUpdating } = useMutation({
         mutationFn: updateSettingsApi,
         onSuccess: () => {
-            toast.add({
-                type: "success",
-                description: "Settings successfully updated!",
-            });
-
+            toast.success("Settings saved", { description: "New bookings will follow the updated rules." });
             queryClient.invalidateQueries({ queryKey: ["settings"] });
-
-            // Run cleanup callbacks (like form.reset() or onClose())
         },
         onError: (err: Error) => {
-            toast.add({
-                type: "error",
-                description: err.message || "Failed to save settings",
-            });
+            toast.error("Couldn't save the settings", { description: err.message });
         },
     });
 
