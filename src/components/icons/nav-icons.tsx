@@ -75,3 +75,14 @@ export function CogIcon(props: IconProps) {
     </NavIcon>
   );
 }
+
+export function GuestsIcon(props: IconProps) {
+  return (
+    <NavIcon {...props}>
+      <rect x="4.5" y="8" width="15" height="11.5" />
+      <path d="M9 8V5.5H15V8" />
+      <path d="M8 19.5V21M16 19.5V21" />
+      <rect x="10.5" y="11.5" width="3" height="4.5" fill={ICON_ACCENT} stroke={ICON_ACCENT} strokeWidth={0.75} />
+    </NavIcon>
+  );
+}

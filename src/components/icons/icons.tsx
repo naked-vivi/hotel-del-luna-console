@@ -24,6 +24,14 @@ export function CloseIcon(props: IconProps) {
   return <Icon {...props}><path d="M6 6L18 18M18 6L6 18" /></Icon>;
 }
 
+export function PlusIcon(props: IconProps) {
+  return <Icon {...props}><path d="M12 5V19M5 12H19" /></Icon>;
+}
+
+export function MinusIcon(props: IconProps) {
+  return <Icon {...props}><path d="M5 12H19" /></Icon>;
+}
+
 export function CheckIcon(props: IconProps) {
   return <Icon {...props}><path d="M5 12.5L10 17.5L19 7" /></Icon>;
 }
@@ -260,6 +268,35 @@ export function RoomChartIcon(props: IconProps) {
       <rect x="6" y="5" width="8" height="3" />
       <rect x="9.5" y="10.5" width="11" height="3" fill={ICON_ACCENT} stroke={ICON_ACCENT} />
       <rect x="6" y="16" width="6" height="3" />
+    </Icon>
+  );
+}
+
+export function SearchIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="10.5" cy="10.5" r="6.25" />
+      <path d="M15.25 15.25L20.5 20.5" />
+    </Icon>
+  );
+}
+
+export function ImagePlusIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M13.5 4.5H3.5V19.5H20.5V11.5" />
+      <path d="M3.5 16L8.5 11L13 15.5L15.5 13L20.5 18" />
+      <path d="M18 3V9M15 6H21" stroke={ICON_ACCENT} />
+    </Icon>
+  );
+}
+
+export function LockIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <rect x="5" y="10.5" width="14" height="10" />
+      <path d="M8 10.5V7.5A4 4 0 0 1 16 7.5V10.5" />
+      <path d="M12 14V17" stroke={ICON_ACCENT} />
     </Icon>
   );
 }
