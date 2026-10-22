@@ -1,14 +1,13 @@
-import TodayActivity from "@/features/check-in-out/today-activity";
-import { useRecentBookings } from "./use-recent-bookings";
-import { useRecentStays } from "./use-recent-stays";
-import CardSkeleton from "@/shared/card-skeleton";
-import Stats from "./stats";
-import SalesChart from "./sales-chart";
-import DurationChart from "./duration-chart";
-import useCabins from "../cabins/use-cabins";
-import { DURATION_CARD, SALES_CARD } from "./card-sizes";
+import TodayActivity from "@/components/check-in-out/today-activity";
+import { useRecentBookings } from "@/hooks/dashboard/use-recent-bookings";
+import { useRecentStays } from "@/hooks/dashboard/use-recent-stays";
+import CardSkeleton from "@/components/shared/card-skeleton";
+import Stats from "@/components/dashboard/stats";
+import SalesChart from "@/components/dashboard/sales-chart";
+import DurationChart from "@/components/dashboard/duration-chart";
+import useCabins from "@/hooks/cabins/use-cabins";
+import { DURATION_CARD, SALES_CARD } from "@/lib/constants";
 
-/** Each card handles its own failure: figures read N/A, charts show the clouded-moon note. */
 function DashboardLayout() {
   const { bookings, isPending: isPending1, error: bookingsError, numDays } = useRecentBookings();
   const { confirmedStays, isPending: isPending2, error: staysError } = useRecentStays();

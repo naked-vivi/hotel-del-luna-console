@@ -1,16 +1,4 @@
-import type { ReactNode } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-type StatProps = {
-  icon: ReactNode;
-  title: string;
-  value: string | number;
-  caption?: string;
-  /** While loading, only the value is replaced by a skeleton of the same height. */
-  isLoading?: boolean;
-  /** When the data failed to load, the value reads N/A. */
-  isError?: boolean;
-};
 
 function Stat({ icon, title, value, caption, isLoading = false, isError = false }: StatProps) {
   return (
