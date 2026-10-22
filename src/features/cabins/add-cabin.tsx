@@ -1,5 +1,5 @@
 
-// import CreateCabinForm from "./CreateCabinForm"
+// import CreateCabinForm from "./create-cabin-form"
 import { useState } from "react";
 // import {
 //     Dialog,
@@ -9,12 +9,12 @@ import { useState } from "react";
 //     DialogTrigger,
 // } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import CabinFormModal from "./CabinFormModal";
+import CabinFormModal from "./cabin-form-modal";
 
 function AddCabin() {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="flex items-center justify-start my-6">
+        <div className="mt-8 flex items-center justify-start">
             <Button className="w-full sm:w-auto" onClick={() => setIsOpen(true)}>Add new cabin</Button>
 
             <CabinFormModal
