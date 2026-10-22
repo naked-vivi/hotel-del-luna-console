@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import PasswordInput from "@/shared/password-input";
 import { Label } from "@/components/ui/label";
 import { FieldError } from "@/components/ui/field";
-import { useUpdateUser } from "./useUpdateUser";
+import { useUpdateUser } from "./use-update-user";
 
 type PasswordFormValues = {
   password: string;
@@ -29,60 +29,49 @@ function UpdatePasswordForm() {
       onSubmit={handleSubmit(onSubmit)}
       onReset={() => reset()}
       aria-busy={isUpdating}
-      className="space-y-6 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm sm:p-8"
+      className="flex flex-1 flex-col gap-6"
     >
-      <div className="grid gap-2 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:items-start sm:gap-6">
-        <Label htmlFor="password" className="sm:pt-3">Password (min 8 characters)</Label>
-        <div className="space-y-2">
-        <Input
-          type="password"
+      <div className="space-y-2">
+        <Label htmlFor="password">New password</Label>
+        <PasswordInput
           id="password"
           autoComplete="new-password"
-          className="h-10"
+          className="h-11"
           required
           aria-invalid={Boolean(errors.password)}
-          aria-describedby={errors.password ? "password-error" : undefined}
+          aria-describedby={errors.password ? "password-error" : "password-hint"}
           disabled={isUpdating}
           {...register("password", {
             required: "This field is required",
-            minLength: {
-              value: 8,
-              message: "Password needs a minimum of 8 characters",
-            },
+            minLength: { value: 8, message: "Password needs a minimum of 8 characters" },
           })}
         />
-          {errors.password && <FieldError id="password-error" errors={[errors.password]} />}
-        </div>
+        {errors.password
+          ? <FieldError id="password-error" errors={[errors.password]} />
+          : <p id="password-hint" className="text-xs text-muted-foreground">At least 8 characters.</p>}
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:items-start sm:gap-6">
-        <Label htmlFor="passwordConfirm" className="sm:pt-3">Confirm password</Label>
-        <div className="space-y-2">
-        <Input
-          type="password"
-          autoComplete="new-password"
+      <div className="space-y-2">
+        <Label htmlFor="passwordConfirm">Repeat new password</Label>
+        <PasswordInput
           id="passwordConfirm"
-          className="h-10"
+          autoComplete="new-password"
+          className="h-11"
           required
           aria-invalid={Boolean(errors.passwordConfirm)}
           aria-describedby={errors.passwordConfirm ? "passwordConfirm-error" : undefined}
           disabled={isUpdating}
           {...register("passwordConfirm", {
             required: "This field is required",
-            validate: (value) =>
-              getValues().password === value || "Passwords need to match",
+            validate: (value) => getValues().password === value || "Passwords need to match",
           })}
         />
-          {errors.passwordConfirm && <FieldError id="passwordConfirm-error" errors={[errors.passwordConfirm]} />}
-        </div>
+        {errors.passwordConfirm && <FieldError id="passwordConfirm-error" errors={[errors.passwordConfirm]} />}
       </div>
-      <div className="flex flex-wrap justify-end gap-3 border-t border-border pt-6">
-        <Button type="reset" variant="outline" size="lg" disabled={isUpdating}>
-          Cancel
-        </Button>
-        <Button type="submit" size="lg" disabled={isUpdating}>
-          {isUpdating ? "Updating password..." : "Update password"}
-        </Button>
+
+      <div className="mt-auto flex flex-wrap justify-end gap-3 border-t border-border pt-6">
+        <Button type="reset" variant="outline" disabled={isUpdating}>Cancel</Button>
+        <Button type="submit" disabled={isUpdating}>{isUpdating ? "Updating..." : "Update password"}</Button>
       </div>
     </form>
   );
