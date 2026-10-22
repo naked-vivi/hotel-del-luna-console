@@ -18,6 +18,9 @@
     --color-primary-800: #2C3D4F;
     --color-primary-900: #1B2631;
     --color-primary-950: #141C24;
+    --color-primary-975: #0D1319;
+    --color-ember-300: #E07A66;
+    --color-honey-300: #E8C27A;
 
     --color-accent-50: #FAF5F0;
     --color-accent-100: #F4ECE1;
@@ -269,4 +272,9 @@
     animation: none;
     transform: translateX(21px);
   }
+}
+
+@keyframes carousel-progress {
+  from { width: 0%; }
+  to { width: 100%; }
 }

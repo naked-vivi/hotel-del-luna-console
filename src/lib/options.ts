@@ -1,12 +1,53 @@
 import { GalleryViewIcon, ListViewIcon, RoomChartIcon } from "@/components/icons/icons";
-import { AFrameCabinIcon, CalendarTickIcon, CogIcon, MoonriseIcon, StaffIcon } from "@/components/icons/nav-icons";
+import { AFrameCabinIcon, CalendarTickIcon, CogIcon, GuestsIcon, MoonriseIcon, StaffIcon } from "@/components/icons/nav-icons";
+import {
+  AirConditioningIcon,
+  BbqGrillIcon,
+  CoffeeMachineIcon,
+  DiningRoomIcon,
+  EvChargingIcon,
+  FirePitIcon,
+  FireplaceIcon,
+  ForestViewIcon,
+  HotTubIcon,
+  KitchenIcon,
+  MountainViewIcon,
+  PetFriendlyIcon,
+  PrivateDeckIcon,
+  SaunaIcon,
+  SmartTvIcon,
+  SpaBathIcon,
+  WifiIcon,
+  WorkspaceIcon,
+} from "@/components/icons/amenity-icons";
 
 export const NAV_LINKS: NavLinkItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: MoonriseIcon },
   { to: "/bookings", label: "Bookings", icon: CalendarTickIcon },
   { to: "/cabins", label: "Cabins", icon: AFrameCabinIcon },
-  { to: "/users", label: "Staff", icon: StaffIcon },
+  { to: "/guests", label: "Guests", icon: GuestsIcon },
+  { to: "/users", label: "Staff", icon: StaffIcon, permission: "staff.view" },
   { to: "/settings", label: "Settings", icon: CogIcon },
+];
+
+export const SEARCH_TYPES: SearchTypeMeta[] = [
+  { value: "page", label: "Pages", icon: MoonriseIcon },
+  { value: "booking", label: "Bookings", icon: CalendarTickIcon },
+  { value: "cabin", label: "Cabins", icon: AFrameCabinIcon },
+  { value: "guest", label: "Guests", icon: GuestsIcon },
+  { value: "staff", label: "Staff", icon: StaffIcon, permission: "staff.view" },
+];
+
+export const SEARCH_PAGES: SearchPage[] = [
+  { label: "Dashboard", to: "/dashboard", keywords: "home overview revenue occupancy countries" },
+  { label: "Bookings", to: "/bookings", keywords: "reservations stays room chart" },
+  { label: "New booking", to: "/bookings/new", keywords: "create reserve add" },
+  { label: "Cabins", to: "/cabins", keywords: "rooms accommodation gallery" },
+  { label: "New cabin", to: "/cabins/new", keywords: "create add room", permission: "cabins.manage" },
+  { label: "Guests", to: "/guests", keywords: "guest book customers travellers" },
+  { label: "Staff", to: "/users", keywords: "team users accounts roles", permission: "staff.view" },
+  { label: "Settings", to: "/settings", keywords: "house rules breakfast limits" },
+  { label: "Your account", to: "/account", keywords: "profile password photo" },
 ];
 
 export const DASHBOARD_PERIOD_OPTIONS: FilterTabOption[] = [
@@ -52,6 +93,41 @@ export const CABIN_SORT_OPTIONS: SortSelectOption[] = [
   { value: "regularPrice-desc", label: "Sort by price (high first)" },
   { value: "maxCapacity-asc", label: "Sort by capacity (low first)" },
   { value: "maxCapacity-desc", label: "Sort by capacity (high first)" },
+];
+
+export const AMENITY_OPTIONS: AmenityOption[] = [
+  { value: "wifi", label: "Wi-Fi", icon: WifiIcon },
+  { value: "fireplace", label: "Fireplace", icon: FireplaceIcon },
+  { value: "kitchen", label: "Kitchen", icon: KitchenIcon },
+  { value: "hot-tub", label: "Hot tub", icon: HotTubIcon },
+  { value: "private-deck", label: "Private deck", icon: PrivateDeckIcon },
+  { value: "spa-bath", label: "Spa bathroom", icon: SpaBathIcon },
+  { value: "forest-view", label: "Forest view", icon: ForestViewIcon },
+  { value: "mountain-view", label: "Mountain view", icon: MountainViewIcon },
+  { value: "dining-room", label: "Dining room", icon: DiningRoomIcon },
+  { value: "sauna", label: "Sauna", icon: SaunaIcon },
+  { value: "fire-pit", label: "Fire pit", icon: FirePitIcon },
+  { value: "coffee-machine", label: "Coffee machine", icon: CoffeeMachineIcon },
+  { value: "bbq-grill", label: "BBQ grill", icon: BbqGrillIcon },
+  { value: "smart-tv", label: "Smart TV", icon: SmartTvIcon },
+  { value: "air-conditioning", label: "Air conditioning", icon: AirConditioningIcon },
+  { value: "workspace", label: "Workspace", icon: WorkspaceIcon },
+  { value: "pet-friendly", label: "Pet friendly", icon: PetFriendlyIcon },
+  { value: "ev-charging", label: "EV charging", icon: EvChargingIcon },
+];
+
+export const BED_TYPE_OPTIONS: SortSelectOption[] = [
+  { value: "King", label: "King" },
+  { value: "Queen", label: "Queen" },
+  { value: "Twin beds", label: "Twin beds" },
+  { value: "King + twin beds", label: "King + twin beds" },
+  { value: "Multiple bedrooms", label: "Multiple bedrooms" },
+];
+
+export const STAFF_ROLE_FILTER_OPTIONS: FilterTabOption[] = [
+  { value: "all", label: "All" },
+  { value: "admin", label: "Admins" },
+  { value: "staff", label: "Staff" },
 ];
 
 export const STAFF_ROLE_OPTIONS: StaffRoleOption[] = [
