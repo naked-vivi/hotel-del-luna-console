@@ -27,8 +27,8 @@
 
 // export default useCreateCabin
 
-import { toast } from "@/components/ui/toast";
-import { createCabin } from "@/services/api-cabins";
+import { toast } from "sonner";
+import { saveCabin } from "@/services/api-cabins";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 export function useCreateCabin(options?: CreateCabinOptions) {
@@ -37,23 +37,19 @@ export function useCreateCabin(options?: CreateCabinOptions) {
     const isEditSession = Boolean(editId);
 
     const { mutate: createCabinMutate, isPending: isCreating } = useMutation({
-        mutationFn: (data: CabinFormValues) => createCabin(data, editId),
-        onSuccess: () => {
-            toast.add({
-                type: "success",
-                description: isEditSession ? "Cabin successfully updated!" : "New cabin successfully created!",
+        mutationFn: (values: CabinFormValues) => saveCabin({ values, id: editId }),
+        onSuccess: (cabin) => {
+            toast.success(isEditSession ? `N° ${cabin.name} updated` : `N° ${cabin.name} added`, {
+                description: isEditSession ? "The new details are live." : "It's ready to take bookings.",
             });
 
             queryClient.invalidateQueries({ queryKey: ["cabins"] });
+            queryClient.invalidateQueries({ queryKey: ["cabin", cabin.id] });
 
-            // Run cleanup callbacks (like form.reset() or onClose())
-            onSuccessCallback?.();
+            onSuccessCallback?.(cabin);
         },
         onError: (err: Error) => {
-            toast.add({
-                type: "error",
-                description: err.message || "Failed to save cabin",
-            });
+            toast.error("Couldn't save the cabin", { description: err.message });
         },
     });
 

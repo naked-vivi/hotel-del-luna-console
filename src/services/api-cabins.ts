@@ -1,5 +1,7 @@
 import supabase, { supabaseUrl } from "./supabase";
-import { CABIN_IMAGE_BUCKET, SUPABASE_ERROR_CODES } from "@/lib/constants";
+import { CABIN_IMAGE_BUCKET, CABIN_STAYS_LIMIT, SUPABASE_ERROR_CODES } from "@/lib/constants";
+import { cabinRowFrom } from "@/lib/helpers";
+import { getToday } from "@/lib/utils";
 
 export async function getCabins(): Promise<Cabin[]> {
     const { data, error } = await supabase
@@ -13,38 +15,58 @@ export async function getCabins(): Promise<Cabin[]> {
     return data;
 }
 
-export async function createCabin(newCabin: CabinFormValues, id?: number) {
-    const hasImagePath = typeof newCabin.image === "string" && newCabin.image.startsWith(supabaseUrl);
+export async function getCabin(id: number): Promise<Cabin | null> {
+    const { data, error } = await supabase.from("cabins").select("*").eq("id", id).maybeSingle();
 
-    let imagePath = newCabin.image;
-    if (!hasImagePath) {
-        if (!(newCabin.image instanceof File)) {
-            throw new Error("Choose an image for this cabin");
-        }
-        const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll("/", "");
-        imagePath = `${supabaseUrl}/storage/v1/object/public/${CABIN_IMAGE_BUCKET}/${imageName}`;
-        const { error: storageError } = await supabase.storage
-            .from(CABIN_IMAGE_BUCKET)
-            .upload(imageName, newCabin.image);
-
-        if (storageError) {
-            console.error(storageError);
-            throw new Error("Cabin image could not be uploaded");
-        }
+    if (error) {
+        console.error(error);
+        throw new Error("This cabin could not be loaded. Try again shortly.");
     }
+    return data;
+}
 
-    //2. create cabin
+export async function getCabinStays(id: number): Promise<CabinStay[]> {
+    const { data, error } = await supabase
+        .from("bookings")
+        .select("id, startDate, endDate, numNights, numGuests, status, guests(fullName, countryFlag, nationality)")
+        .eq("cabinId", id)
+        .gte("endDate", getToday())
+        .order("startDate")
+        .limit(CABIN_STAYS_LIMIT);
+
+    if (error) {
+        console.error(error);
+        throw new Error("Upcoming stays could not be loaded");
+    }
+    return (data ?? []) as unknown as CabinStay[];
+}
+
+async function uploadCabinPhoto(file: File) {
+    const name = `${crypto.randomUUID()}-${file.name}`.replace(/[^\w.-]/g, "-");
+    const { error } = await supabase.storage.from(CABIN_IMAGE_BUCKET).upload(name, file);
+
+    if (error) {
+        console.error(error);
+        throw new Error(`“${file.name}” could not be uploaded`);
+    }
+    return `${supabaseUrl}/storage/v1/object/public/${CABIN_IMAGE_BUCKET}/${name}`;
+}
+
+export async function saveCabin({ values, id }: SaveCabinArgs): Promise<Cabin> {
+    const images = await Promise.all(values.photos.map((photo) => (photo.file ? uploadCabinPhoto(photo.file) : photo.url)));
+    const row = cabinRowFrom(values, images);
+
     const query = id
-        ? supabase.from("cabins").update({ ...newCabin, image: imagePath }).eq("id", id)
-        : supabase.from("cabins").insert({ ...newCabin, image: imagePath });
-    const { data, error } = await query.select();
+        ? supabase.from("cabins").update(row).eq("id", id)
+        : supabase.from("cabins").insert(row);
+    const { data, error } = await query.select().maybeSingle();
 
     if (error) {
         console.error(error);
         throw new Error(id ? "Cabin could not be updated" : "Cabin could not be created");
     }
+    if (!data) throw new Error("Only admins can change cabins.");
     return data;
-
 }
 
 export async function deleteCabin(id: number) {

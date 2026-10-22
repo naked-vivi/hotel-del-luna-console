@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/toast";
+import { toast } from "sonner";
 import { deleteCabin } from "@/services/api-cabins";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -9,17 +9,11 @@ function useDeleteCabin() {
     const { isPending: isDeleting, mutate } = useMutation({
         mutationFn: deleteCabin,
         onSuccess: () => {
-            toast.add({
-                type: "success",
-                description: "Cabin successfully deleted",
-            });
+            toast.success("Cabin deleted");
             queryClient.invalidateQueries({ queryKey: ['cabins'] });
         },
         onError: (err) => {
-            toast.add({
-                type: "error",
-                description: err.message || "Failed to delete cabin",
-            });
+            toast.error("Couldn't delete the cabin", { description: err.message });
         }
     });
     return { isDeleting, mutate };
