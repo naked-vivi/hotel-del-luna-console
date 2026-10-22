@@ -1,6 +1,30 @@
+# Staff page setup
+
+The Staff page lists every account in a table. Administrators can view details,
+edit a person's name and role, delete an account, and add new staff.
+
+## Staff page actions (run once, after the steps below)
+
+1. Complete the one-time setup below first, so you have an admin account.
+2. Open your Supabase project → SQL Editor → New query.
+3. Paste and run `migrations/202610220001_staff_admin_actions.sql`.
+
+It adds three admin-only database functions and upgrades the list:
+
+- `list_user_accounts` also returns each person's photo, role and last sign-in.
+- `update_user_account` changes a person's name and role (`admin` or `staff`).
+- `delete_user_account` removes an account.
+
+Each function checks the caller's admin role in `auth.users` on every call.
+Admins cannot delete their own account or remove their own admin role, so no one
+can lock themselves out. Until this script runs, the page shows a note saying the
+action isn't set up yet.
+
+---
+
 # User accounts list setup
 
-The Users page shows the signup form followed by a read-only account list.
+The account list below is the original read-only directory.
 The database permits only administrators to read that list. It returns names,
 emails, creation dates, and email-confirmation status. Existing accounts are
 included automatically; no copying or backfill is needed.
