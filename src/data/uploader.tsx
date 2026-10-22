@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ArrowRightIcon } from "@/shared/icons";
+import { CalendarCardIcon, LedgerStackIcon } from "@/shared/drawn-icons";
 import { isFuture, isPast, isToday } from "date-fns";
 import supabase from "../services/supabase";
 
@@ -7,7 +9,6 @@ import { subtractDates } from "../lib/utils";
 import { bookings } from "./data-bookings";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
-import { Button } from "@/components/ui/button"; // Corrected shadcn import
 
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);
@@ -114,25 +115,41 @@ function Uploader() {
     setIsLoading(false);
   }
 
+  // The sidebar stays navy in both modes, so this panel uses the sidebar colours only.
+  const rowClass =
+    "group flex w-full items-center justify-between gap-3 px-4 pt-3.5 pb-3 text-left text-[10.5px] font-semibold uppercase tracking-[0.2em] text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-accent-50 focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-sidebar-ring disabled:pointer-events-none disabled:opacity-40";
+
   return (
-    <div className="mt-auto bg-indigo-50 dark:bg-indigo-950/50 p-3 rounded-md text-center flex flex-col gap-2 border border-indigo-200 dark:border-indigo-800">
-      <h3 className="text-xs font-bold text-indigo-900 dark:text-indigo-200 tracking-wider uppercase">
-        Sample Data
-      </h3>
+    <section aria-label="Sample data" aria-busy={isLoading} className="border border-sidebar-border">
+      <div className="space-y-2 px-4 pt-4 pb-3.5">
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="pt-0.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-accent-300">Sample data</h3>
+          <span className="border border-sage-300/40 bg-sage-300/10 px-1.5 pt-0.5 text-[8.5px] font-semibold uppercase tracking-[0.2em] text-sage-300">
+            Dev
+          </span>
+        </div>
+        <p className="truncate text-[11px] leading-snug text-primary-300">
+          {isLoading ? "Replacing data, one moment…" : "Replaces what is in the database."}
+        </p>
+      </div>
 
-      <Button onClick={uploadAll} disabled={isLoading} size="sm">
-        Upload ALL
-      </Button>
-
-      <Button
-        onClick={uploadBookings}
-        disabled={isLoading}
-        variant="outline"
-        size="sm"
-      >
-        Upload bookings ONLY
-      </Button>
-    </div>
+      <div className="divide-y divide-sidebar-border border-t border-sidebar-border">
+        <button type="button" onClick={uploadAll} disabled={isLoading} className={rowClass}>
+          <span className="flex items-center gap-3">
+            <LedgerStackIcon aria-hidden="true" className="-my-1 size-5.5" />
+            Everything
+          </span>
+          <ArrowRightIcon aria-hidden="true" className="-mt-0.5 size-3.5 stroke-[1.5] text-primary-400 transition-colors group-hover:text-sidebar-primary" />
+        </button>
+        <button type="button" onClick={uploadBookings} disabled={isLoading} className={rowClass}>
+          <span className="flex items-center gap-3">
+            <CalendarCardIcon aria-hidden="true" className="-my-1 size-5.5" />
+            Bookings only
+          </span>
+          <ArrowRightIcon aria-hidden="true" className="-mt-0.5 size-3.5 stroke-[1.5] text-primary-400 transition-colors group-hover:text-sidebar-primary" />
+        </button>
+      </div>
+    </section>
   );
 }
 
