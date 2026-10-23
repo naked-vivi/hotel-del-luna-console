@@ -594,7 +594,7 @@ export function searchPages(query: string, canView: (permission: Permission) => 
   const term = query.trim().toLowerCase();
   return SEARCH_PAGES.filter((page) => !page.permission || canView(page.permission))
     .filter((page) => !term || `${page.label} ${page.keywords}`.toLowerCase().includes(term))
-    .map((page) => ({ id: `page-${page.to}`, type: "page", title: page.label, subtitle: "Page", to: page.to }));
+    .map((page) => ({ id: `page-${page.to}`, type: "page", title: page.label, subtitle: "Page", to: page.to, icon: page.icon }));
 }
 
 export function searchSafeTerm(query: string) {

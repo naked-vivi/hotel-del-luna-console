@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 
 import Logout from "@/components/authentication/logout";
 import UserAvatar from "@/components/authentication/user-avatar";
-import { Button } from "@/components/ui/button";
-import SidebarToggle from "@/components/shared/sidebar-toggle";
-import { ModeToggle } from "@/components/shared/mode-toggle";
-import LobbyClock from "@/components/shared/lobby-clock";
-import TonightMoon from "@/components/shared/tonight-moon";
-import FrontDeskCount from "@/components/shared/front-desk-count";
-import HeaderDivider from "@/components/shared/header-divider";
 import GlobalSearch from "@/components/shared/global-search";
+import HeaderDivider from "@/components/shared/header-divider";
+import LobbyClock from "@/components/shared/lobby-clock";
+import { ModeToggle } from "@/components/shared/mode-toggle";
+import SidebarToggle from "@/components/shared/sidebar-toggle";
+import TonightMoon from "@/components/shared/tonight-moon";
+import { Button } from "@/components/ui/button";
 
 function Header() {
     return (
@@ -21,8 +20,8 @@ function Header() {
                 <div className="hidden lg:block"><LobbyClock /></div>
                 <HeaderDivider className="hidden min-[90rem]:block" />
                 <div className="hidden min-[90rem]:block"><TonightMoon /></div>
-                <HeaderDivider className="hidden 2xl:block" />
-                <div className="hidden 2xl:block"><FrontDeskCount /></div>
+                {/* <HeaderDivider className="hidden 2xl:block" /> */}
+                {/* <div className="hidden 2xl:block"><FrontDeskCount /></div> */}
             </div>
 
             <div className="flex shrink-0 items-center gap-5">

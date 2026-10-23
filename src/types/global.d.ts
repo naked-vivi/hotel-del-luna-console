@@ -41,6 +41,7 @@ type SearchResult = {
   subtitle: string;
   to: string;
   flag?: string | null;
+  icon?: IconComponent;
 };
 
 type SearchBookingRow = {
@@ -62,6 +63,7 @@ type SearchPage = {
   label: string;
   to: string;
   keywords: string;
+  icon: IconComponent;
   permission?: Permission;
 };
 

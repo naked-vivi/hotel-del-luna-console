@@ -3,7 +3,7 @@ import { SEARCH_TYPES } from "@/lib/options";
 
 function SearchResultItem({ result, onSelect }: SearchResultItemProps) {
   const meta = SEARCH_TYPES.find((entry) => entry.value === result.type);
-  const Icon = meta?.icon;
+  const Icon = result.icon ?? meta?.icon;
 
   return (
     <CommandItem value={result.id} onSelect={() => onSelect(result)}>

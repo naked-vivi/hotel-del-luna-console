@@ -1,4 +1,4 @@
-import { GalleryViewIcon, ListViewIcon, RoomChartIcon } from "@/components/icons/icons";
+import { GalleryViewIcon, ListViewIcon, RoomChartIcon, UserIcon } from "@/components/icons/icons";
 import { AFrameCabinIcon, CalendarTickIcon, CogIcon, GuestsIcon, MoonriseIcon, StaffIcon } from "@/components/icons/nav-icons";
 import {
   AirConditioningIcon,
@@ -39,15 +39,15 @@ export const SEARCH_TYPES: SearchTypeMeta[] = [
 ];
 
 export const SEARCH_PAGES: SearchPage[] = [
-  { label: "Dashboard", to: "/dashboard", keywords: "home overview revenue occupancy countries" },
-  { label: "Bookings", to: "/bookings", keywords: "reservations stays room chart" },
-  { label: "New booking", to: "/bookings/new", keywords: "create reserve add" },
-  { label: "Cabins", to: "/cabins", keywords: "rooms accommodation gallery" },
-  { label: "New cabin", to: "/cabins/new", keywords: "create add room", permission: "cabins.manage" },
-  { label: "Guests", to: "/guests", keywords: "guest book customers travellers" },
-  { label: "Staff", to: "/users", keywords: "team users accounts roles", permission: "staff.view" },
-  { label: "Settings", to: "/settings", keywords: "house rules breakfast limits" },
-  { label: "Your account", to: "/account", keywords: "profile password photo" },
+  { label: "Dashboard", to: "/dashboard", keywords: "home overview revenue occupancy countries", icon: MoonriseIcon },
+  { label: "Bookings", to: "/bookings", keywords: "reservations stays room chart", icon: CalendarTickIcon },
+  { label: "New booking", to: "/bookings/new", keywords: "create reserve add", icon: CalendarTickIcon },
+  { label: "Cabins", to: "/cabins", keywords: "rooms accommodation gallery", icon: AFrameCabinIcon },
+  { label: "New cabin", to: "/cabins/new", keywords: "create add room", icon: AFrameCabinIcon, permission: "cabins.manage" },
+  { label: "Guests", to: "/guests", keywords: "guest book customers travellers", icon: GuestsIcon },
+  { label: "Staff", to: "/users", keywords: "team users accounts roles", icon: StaffIcon, permission: "staff.view" },
+  { label: "Settings", to: "/settings", keywords: "house rules breakfast limits", icon: CogIcon },
+  { label: "Your account", to: "/account", keywords: "profile password photo", icon: UserIcon },
 ];
 
 export const DASHBOARD_PERIOD_OPTIONS: FilterTabOption[] = [
